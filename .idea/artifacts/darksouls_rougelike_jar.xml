@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="darksouls_rougelike:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/darksouls_rougelike_jar</output-path>
+    <root id="archive" name="darksouls_rougelike.jar">
+      <element id="module-output" name="darksouls_rougelike" />
+    </root>
+  </artifact>
+</component>
