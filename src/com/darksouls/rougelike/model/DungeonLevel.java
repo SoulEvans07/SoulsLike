@@ -3,6 +3,7 @@ package com.darksouls.rougelike.model;
 import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
+import com.darksouls.rougelike.utility.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,13 +24,14 @@ public class DungeonLevel {
 
     public void loadMap(){
         fields = new ArrayList<>();
-        fieldSize = new VPoint(20, 15);
+        fieldSize = new VPoint(40, 30);
 
         // TODO: get map entrance
         VPoint entrance = new VPoint(1, 1);
         Random r = new Random();
+
         VPoint npc = new VPoint( 1 + Math.abs(r.nextInt()) % (fieldSize.x() - 2),
-                                 1 + Math.abs(r.nextInt()) % (fieldSize.y() - 2));
+                1 + Math.abs(r.nextInt()) % (fieldSize.y() - 2));
 
         Tile tmp;
 
@@ -38,11 +40,12 @@ public class DungeonLevel {
                 // Procedural map
                 if(i == 0 || i == fieldSize.x()-1 || j == 0 || j == fieldSize.y()-1)
                     tmp = new Wall(i, j);
-                else if(i == 2 && j == 2)
-                    tmp = new Wall(i, j);
-                else
-                    tmp = new Tile(i, j);
-
+                else {
+                    if (!(i == entrance.x() && j == entrance.y()) && r.nextInt(10) > 7)
+                        tmp = new Wall(i, j);
+                    else
+                        tmp = new Tile(i, j);
+                }
                 // Player placement
                 if(i == entrance.x() && j == entrance.y()) {
                     Player.getInstance().setPos(tmp);
@@ -88,7 +91,7 @@ public class DungeonLevel {
 
         from = from.add(vector);
         while(from.getDist(to) >= Config.FIELD_SIZE / 2){
-            if(!GuiMagic.getFieldCenter(from).equals(at) && !getTile(GuiMagic.getFieldCenter(from)).isTransparent()) {
+            if(!GuiMagic.getFieldCenter(from).equals(at) && !GuiMagic.getFieldCenter(from).equals(tile) && !getTile(GuiMagic.getFieldCenter(from)).isTransparent()) {
                 return false;
             }
             from = from.add(vector);

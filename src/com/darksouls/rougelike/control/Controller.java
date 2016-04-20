@@ -57,7 +57,9 @@ public class Controller {
                 if (field != null) {
                     tile = GamePanel.getInstance().getDungeonLevel().getTile(field.x(), field.y());
                     if (tile != null)
-                        LogHelper.writeLn(tile.toString());
+                        LogHelper.writeLn(tile.toString() + " " +
+                                ((Player.getInstance().getVisibilityLevel(field) != Reference.TILE_HIDDEN &&
+                                    GamePanel.getInstance().getDungeonLevel().getTile(field).isValid()) ? "valid" : "invalid"));
                 }
             } else {
                 GamePanel.getInstance().getCanvas().point = null;

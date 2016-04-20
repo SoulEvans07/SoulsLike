@@ -76,8 +76,6 @@ public class GameCanvas extends Canvas {
                     // Visibility setting
                     visibility = Player.getInstance().getVisibilityLevel(temp);
                     Color c = level.getTile(x, y).getColor(visibility);
-                    for(int v = 0; v < visibility; v++)
-                        c = c.darker();
 
                     bufferGraphics.setColor(c);
                     //bufferGraphics.fillRect((int) Math.floor(x * fieldSize), (int) Math.floor(y * fieldSize),

@@ -1,7 +1,10 @@
 package com.darksouls.rougelike.model;
 
+import com.darksouls.rougelike.references.Colors;
 import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.references.Reference;
+import com.sun.org.apache.regexp.internal.RE;
+import com.sun.webkit.graphics.Ref;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,7 +23,7 @@ public class Tile {
 
     public Tile(int x, int y){
         pos = new VPoint(x, y);
-        tileColor = new Color(240, 240, 240);
+        tileColor = Colors.freeCell;
         transparent = true;
     }
 
@@ -71,6 +74,10 @@ public class Tile {
         return transparent;
     }
 
+    public boolean isValid(){ // isValid place to step
+        return true;
+    }
+
 
     //------------------------------------------------------------------------------------------------------------------
 
@@ -82,11 +89,15 @@ public class Tile {
     // TODO: temporary render
     public Color getColor(int visibility){
         Color ret = tileColor;
-        if(visibility == Reference.TILE_VISIBLE) {
+        if(visibility == Reference.TILE_HIDDEN)
+            ret = new Color(0, 0, 0);
+        else {
             if (entities != null && entities.size() != 0)
                 ret = entities.get(0).getColor();
             if (livingEntity != null)
                 ret = livingEntity.getColor();
+            if(visibility == Reference.TILE_SEEN)
+                ret = ret.darker().darker();
         }
 
         return ret;

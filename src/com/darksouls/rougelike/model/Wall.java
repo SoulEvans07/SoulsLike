@@ -1,13 +1,20 @@
 package com.darksouls.rougelike.model;
 
+import com.darksouls.rougelike.references.Colors;
+
 import java.awt.*;
 
 public class Wall extends Tile {
 
     public Wall(int x, int y){
-        this.tileColor = new Color(0, 0, 0);
+        this.tileColor = Colors.wallCell;
         this.pos = new VPoint(x, y);
         transparent = false;
+    }
+
+    @Override
+    public boolean isValid(){
+        return false;
     }
 
     @Override
