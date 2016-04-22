@@ -44,11 +44,15 @@ public class Tile {
         return step;
     }
 
+    public Living getLiving(){
+        return livingEntity;
+    }
+
     public void stepOff(Living off){
         this.livingEntity = null;
     }
 
-    protected Tile getNeighbor(VPoint dir){
+    public Tile getNeighbor(VPoint dir){
         Tile ret = null;
         if(neighbors != null){
             for(int i = 0; i < neighbors.size(); i++)
@@ -57,6 +61,10 @@ public class Tile {
         }
 
         return ret;
+    }
+
+    public ArrayList<Tile> getNeighbors() {
+        return neighbors;
     }
 
     // gets you the screen coordinate of the tile center

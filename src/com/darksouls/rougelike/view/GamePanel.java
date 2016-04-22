@@ -59,6 +59,7 @@ public class GamePanel extends JPanel {
     }
 
     public void tick(){
+        dungeonLevel.tick();
         canvas.repaint();
     }
 

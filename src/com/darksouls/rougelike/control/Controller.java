@@ -1,17 +1,18 @@
 package com.darksouls.rougelike.control;
 
+import com.darksouls.rougelike.model.Action;
 import com.darksouls.rougelike.model.Player;
 import com.darksouls.rougelike.model.Tile;
 import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
-import com.darksouls.rougelike.utility.LogHelper;
 import com.darksouls.rougelike.view.GamePanel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class Controller {
     private static Controller instance;
@@ -55,11 +56,24 @@ public class Controller {
 
                 Tile tile;
                 if (field != null) {
-                    tile = GamePanel.getInstance().getDungeonLevel().getTile(field.getX(), field.getY());
-                    if (tile != null)
-                        LogHelper.writeLn(tile.toString() + " " +
-                                ((Player.getInstance().getVisibilityLevel(field) != Reference.TILE_HIDDEN &&
-                                    GamePanel.getInstance().getDungeonLevel().getTile(field).isValid()) ? "valid" : "invalid"));
+                    if(Player.getInstance().getVisibilityLevel(field) != Reference.TILE_HIDDEN) {
+                        tile = GamePanel.getInstance().getDungeonLevel().getTile(field.getX(), field.getY());
+                        if (tile != null && GamePanel.getInstance().getDungeonLevel().getTile(field).isValid()) {
+                            if (Player.getInstance().plan(tile)) {
+                                ArrayList<Action> plan = Player.getInstance().getPlan();
+
+
+                                while (plan.size() > 0) {
+                                    if (!Player.getInstance().seeDanger()) {
+                                        Action move = plan.get(plan.size() - 1); // get last
+                                        move.exec(Player.getInstance());
+                                        plan.remove(plan.size() - 1);
+                                    } else
+                                        plan.clear(); // drop plan if danger seen
+                                }
+                            }
+                        }
+                    }
                 }
             } else {
                 GamePanel.getInstance().getCanvas().point = null;
@@ -74,27 +88,33 @@ public class Controller {
         public void keyPressed(KeyEvent e) {
             boolean validAction = false;
             VPoint dir = new VPoint();
+
             switch (e.getKeyCode()){
                 case Reference.MOVE_UP:
-                    validAction = Player.getInstance().step(dir.set(0, -1));
+                    dir.set(0, -1);
                     break;
                 case Reference.MOVE_RIGHT:
-                    validAction = Player.getInstance().step(dir.set(1, 0));
+                    dir.set(1, 0);
                     break;
                 case Reference.MOVE_DOWN:
-                    validAction = Player.getInstance().step(dir.set(0, 1));
+                    dir.set(0, 1);
                     break;
                 case Reference.MOVE_LEFT:
-                    validAction = Player.getInstance().step(dir.set(-1, 0));
+                    dir.set(-1, 0);
                     break;
                 case Reference.WAIT:
                     // Wait is just a tick without action
                     validAction = true;
+                    Clock.tick();
                     break;
             }
 
+            if(!Player.getInstance().attack(dir))
+                validAction = Player.getInstance().step(dir);
+
             if(validAction)
-                Clock.tick();
+                Player.getInstance().seeDanger(); // clears unseen npc from ignore list
+            //    Clock.tick();
         }
     }
 }

@@ -79,6 +79,15 @@ public class DungeonLevel {
         }
     }
 
+    public void tick(){
+
+    }
+
+
+    public int getInfinity(){
+        return fieldSize.getX() * fieldSize.getY() + 1;
+    }
+
     public boolean rayTrace(VPoint tile, VPoint at){
         VPoint from = new VPoint(at.x() * Config.FIELD_SIZE + Config.FIELD_SIZE / 2,
                 at.y() * Config.FIELD_SIZE + Config.FIELD_SIZE / 2);

@@ -27,6 +27,14 @@ public class Reference {
     public static final int TILE_SEEN = 2;
     public static final int TILE_VISIBLE = 0;
 
+    // ActionTypes
+    public static final int MOVE_ACT = 0;
+    public static final int ATTACK_ACT = 1;
+
+    // DamageTypes
+    public static final int PHYS_DMG = 0;
+    public static final int FIRE_DMG = 1;
+
 
     //---------CLASS-REFERENCES--------
     // Clock related
