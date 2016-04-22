@@ -55,7 +55,7 @@ public class Controller {
 
                 Tile tile;
                 if (field != null) {
-                    tile = GamePanel.getInstance().getDungeonLevel().getTile(field.x(), field.y());
+                    tile = GamePanel.getInstance().getDungeonLevel().getTile(field.getX(), field.getY());
                     if (tile != null)
                         LogHelper.writeLn(tile.toString() + " " +
                                 ((Player.getInstance().getVisibilityLevel(field) != Reference.TILE_HIDDEN &&

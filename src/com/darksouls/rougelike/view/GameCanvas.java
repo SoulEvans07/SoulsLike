@@ -32,8 +32,8 @@ public class GameCanvas extends Canvas {
             this.addKeyListener(kL);
         }
 
-        cols = level.getLevelSize().x();
-        rows = level.getLevelSize().y();
+        cols = (int) level.getLevelSize().x();
+        rows = (int) level.getLevelSize().y();
 
         offscreen = createImage((int) Math.ceil(cols*fieldSize), (int) Math.ceil(rows*fieldSize));
         if (offscreen != null)
@@ -89,7 +89,9 @@ public class GameCanvas extends Canvas {
             if(point != null) {
                 bufferGraphics.setColor(Colors.spawnCell);
                 point = GuiMagic.getFieldCoord(point);
-                bufferGraphics.drawLine(point.x(), point.y(), Player.getInstance().getPos().mVect().x(), Player.getInstance().getPos().mVect().y());
+                bufferGraphics.drawLine((int)point.x(), (int)point.y(),
+                        (int)Player.getInstance().getPos().mVect().x(),
+                        (int)Player.getInstance().getPos().mVect().y());
             }
 
             g.drawImage(offscreen, 0, 0, this);

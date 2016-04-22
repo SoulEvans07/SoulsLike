@@ -3,8 +3,6 @@ package com.darksouls.rougelike.model;
 import com.darksouls.rougelike.references.Colors;
 import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.references.Reference;
-import com.sun.org.apache.regexp.internal.RE;
-import com.sun.webkit.graphics.Ref;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -94,8 +92,10 @@ public class Tile {
         else {
             if (entities != null && entities.size() != 0)
                 ret = entities.get(0).getColor();
-            if (livingEntity != null)
+
+            if (visibility == Reference.TILE_VISIBLE && livingEntity != null)
                 ret = livingEntity.getColor();
+
             if(visibility == Reference.TILE_SEEN)
                 ret = ret.darker().darker();
         }

@@ -22,8 +22,10 @@ public class GuiMagic {
     public static VPoint getFieldCenter(VPoint mouseCoord){
         VPoint ret = null;
         if(mouseCoord != null)
-            ret = new VPoint(mouseCoord.x() / Config.FIELD_SIZE,
-                mouseCoord.y() / Config.FIELD_SIZE);
+            ret = new VPoint(Math.floor(mouseCoord.x() / Config.FIELD_SIZE),
+                Math.floor(mouseCoord.y() / Config.FIELD_SIZE));
+
+        //LogHelper.writeLn("gui: " + mouseCoord.toString());
         return ret;
     }
 

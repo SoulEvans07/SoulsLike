@@ -7,15 +7,15 @@ import java.awt.*;
 import java.util.Random;
 
 public class VPoint {
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 
     public VPoint(){
         x = 0;
         y = 0;
     }
 
-    public VPoint(int px, int py){
+    public VPoint(double px, double py){
         this.x = px;
         this.y = py;
     }
@@ -28,23 +28,31 @@ public class VPoint {
         this(p.x, p.y);
     }
 
-    public int x(){
+    public double x(){
         return this.x;
     }
 
-    public void x(int p){
+    public int getX(){
+        return (int)this.x;
+    }
+
+    public void x(double p){
         this.x = p;
     }
 
-    public int y() {
+      public double y() {
         return this.y;
     }
 
-    public void y(int p){
+    public int getY() {
+        return (int)this.y;
+    }
+
+    public void y(double p){
         this.y = p;
     }
 
-    public VPoint set(int px, int py){
+    public VPoint set(double px, double py){
         this.x = px;
         this.y = py;
         return this;
@@ -71,7 +79,7 @@ public class VPoint {
     }
 
     public VPoint multiply(double m){
-        return new VPoint((int)(this.x * m), (int)(this.y * m));
+        return new VPoint(this.x * m, this.y * m);
     }
 
     public double length(){

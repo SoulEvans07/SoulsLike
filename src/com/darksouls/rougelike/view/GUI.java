@@ -50,9 +50,10 @@ public class GUI extends JFrame{
 
         startSize = new VPoint(800, 600);
         size = new VPoint(startSize.x() + this.getInsets().right , startSize.y() + this.getInsets().top);
-        GuiMagic.setFrameSize(this, size.x(), size.y());
+        GuiMagic.setFrameSize(this, size.getX(), size.getY());
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        //this.setLocationRelativeTo(null);
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 

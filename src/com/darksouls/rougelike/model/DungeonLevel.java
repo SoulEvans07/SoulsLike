@@ -3,7 +3,6 @@ package com.darksouls.rougelike.model;
 import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
-import com.darksouls.rougelike.utility.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,7 +23,7 @@ public class DungeonLevel {
 
     public void loadMap(){
         fields = new ArrayList<>();
-        fieldSize = new VPoint(40, 30);
+        fieldSize = new VPoint(33, 23);
 
         // TODO: get map entrance
         VPoint entrance = new VPoint(1, 1);
@@ -41,7 +40,7 @@ public class DungeonLevel {
                 if(i == 0 || i == fieldSize.x()-1 || j == 0 || j == fieldSize.y()-1)
                     tmp = new Wall(i, j);
                 else {
-                    if (!(i == entrance.x() && j == entrance.y()) && r.nextInt(10) > 7)
+                    if (!(i == entrance.x() && j == entrance.y()) && r.nextInt(10) > 8)
                         tmp = new Wall(i, j);
                     else
                         tmp = new Tile(i, j);
@@ -87,11 +86,12 @@ public class DungeonLevel {
                 tile.y() * Config.FIELD_SIZE + Config.FIELD_SIZE / 2);
 
         VPoint vector = to.subtract(from);
-        vector = vector.multiply(Config.FIELD_SIZE / (Config.FIELD_SIZE / 8) / vector.length());
+        vector = vector.multiply(2 / vector.length());
 
         from = from.add(vector);
-        while(from.getDist(to) >= Config.FIELD_SIZE / 2){
-            if(!GuiMagic.getFieldCenter(from).equals(at) && !GuiMagic.getFieldCenter(from).equals(tile) && !getTile(GuiMagic.getFieldCenter(from)).isTransparent()) {
+        while(inBound(from) && from.getDist(to) > (Config.FIELD_SIZE / 8)){
+            if(!GuiMagic.getFieldCenter(from).equals(at) && !GuiMagic.getFieldCenter(from).equals(tile) &&
+                    !getTile(GuiMagic.getFieldCenter(from)).isTransparent()) {
                 return false;
             }
             from = from.add(vector);
@@ -99,15 +99,23 @@ public class DungeonLevel {
         return true;
     }
 
+    public boolean inBound(VPoint p){
+        return !(p.x() < 0 || p.y() < 0 || p.x() > fieldSize.x()*Config.FIELD_SIZE || p.y() > fieldSize.y()*Config.FIELD_SIZE);
+    }
+
+    public boolean inBoundTile(VPoint p){
+        return !(p.x() < 0 || p.y() < 0 || p.x() > fieldSize.x() || p.y() > fieldSize.y());
+    }
+
     public Tile getTile(int x, int y){
         Tile ret = null;
-        int id = y * fieldSize.x() + x;
+        int id = y * fieldSize.getX() + x;
         if(0 <= id && id < fieldSize.x() * fieldSize.y())
             ret = fields.get(id);
         return ret;
     }
 
     public Tile getTile(VPoint v){
-        return this.getTile(v.x(), v.y());
+        return this.getTile(v.getX(), v.getY());
     }
 }
