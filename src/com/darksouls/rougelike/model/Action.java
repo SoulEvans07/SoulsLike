@@ -1,6 +1,7 @@
 package com.darksouls.rougelike.model;
 
 import com.darksouls.rougelike.references.Reference;
+import com.darksouls.rougelike.view.GamePanel;
 
 public class Action {
     private int actionType;
@@ -18,6 +19,8 @@ public class Action {
         if(this.actionType == Reference.ATTACK_ACT) {
             entity.attack(this.dir);
         }
+
+        GamePanel.getInstance().getCanvas().repaint();
     }
 
     @Override

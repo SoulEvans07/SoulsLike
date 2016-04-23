@@ -6,6 +6,7 @@ import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Colors;
 import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.utility.GuiMagic;
+import com.darksouls.rougelike.utility.LogHelper;
 
 import java.awt.*;
 import java.awt.event.KeyListener;
@@ -44,13 +45,20 @@ public class GameCanvas extends Canvas {
 
     @Override
     public void paint(Graphics g) {
+        super.paint(g);
+        LogHelper.comment("canvas.paint");
         Graphics2D g2 = (Graphics2D) g;
         drawLevel(g2);
     }
 
     @Override
+    public void repaint(){
+        super.repaint();
+    }
+
+    @Override
     public void update(Graphics g){
-        paint(g);
+        super.update(g);
     }
 
     // http://stackoverflow.com/questions/2845346/double-buffering-with-awt
@@ -63,6 +71,7 @@ public class GameCanvas extends Canvas {
 
     private void drawLevel(Graphics2D g) {
         if(bufferGraphics != null) {
+            LogHelper.comment("canvas.drawLevel");
             bufferGraphics.clearRect(0, 0, (int) Math.ceil(cols*Config.FIELD_SIZE),
                     (int) Math.ceil(rows*Config.FIELD_SIZE));
             bufferGraphics.setColor(Colors.line);
@@ -95,7 +104,6 @@ public class GameCanvas extends Canvas {
             }
 
             g.drawImage(offscreen, 0, 0, this);
-            //parent.invalidate();
         } else {
             offscreen = createImage((int) Math.ceil(cols*Config.FIELD_SIZE),
                     (int) Math.ceil(rows*Config.FIELD_SIZE));

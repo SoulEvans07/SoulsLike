@@ -64,6 +64,7 @@ public class Player extends Living{
         boolean ret = super.step(dir);
         if(ret) {
             //LogHelper.writeLn("------------------------------");
+            LogHelper.error("player TICK");
             Clock.tick();
             this.lookAround();
         }

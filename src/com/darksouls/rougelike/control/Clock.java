@@ -1,5 +1,6 @@
 package com.darksouls.rougelike.control;
 
+import com.darksouls.rougelike.utility.LogHelper;
 import com.darksouls.rougelike.view.GamePanel;
 
 import javax.swing.*;
@@ -14,7 +15,6 @@ public class Clock {
         counter++;
         // tick game elements
         GamePanel.getInstance().tick();
-        //Player.getInstance().getPos().vect().printPoint();
     }
 
     // TODO: no need for it yet
