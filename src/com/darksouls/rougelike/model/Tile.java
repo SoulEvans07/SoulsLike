@@ -100,7 +100,7 @@ public class Tile {
     // TODO: temporary render
     public Color getColor(int visibility){
         Color ret = tileColor;
-        if( !Reference.DEBUG && visibility == Reference.TILE_HIDDEN)
+        if( !Config.DEBUG && visibility == Reference.TILE_HIDDEN)
             ret = new Color(0, 0, 0);
         else {
             if (entities != null && entities.size() != 0)
@@ -113,7 +113,7 @@ public class Tile {
                 ret = ret.darker().darker();
 
             // TODO: temporary; only for testing
-            if(Reference.DEBUG && visibility != Reference.TILE_VISIBLE) {
+            if(Config.DEBUG && visibility != Reference.TILE_VISIBLE) {
                 if (livingEntity != null)
                     ret = livingEntity.getColor().darker();
                 if (visibility == Reference.TILE_SEEN)

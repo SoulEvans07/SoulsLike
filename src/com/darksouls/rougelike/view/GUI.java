@@ -1,6 +1,7 @@
 package com.darksouls.rougelike.view;
 
 import com.darksouls.rougelike.model.VPoint;
+import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
 
@@ -41,7 +42,7 @@ public class GUI extends JFrame{
     private void initFrame(){
         GuiMagic.setWindowsLook();
         this.setLayout(new BorderLayout());
-        this.setTitle(Reference.PROJ_NAME + " - " + Reference.PROJ_VER);
+        this.setTitle(Reference.PROJ_NAME + (Config.DEBUG ? " - " + Reference.PROJ_VER : ""));
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new exitApp());
 
@@ -61,6 +62,10 @@ public class GUI extends JFrame{
     //--------------------------------------------------Main------------------------------------------------------------
 
     public static void main(String[] args){
+        if(args.length > 0 && args[0].toUpperCase().equals("-debug".toUpperCase()))
+            Config.DEBUG = true;
+        else
+            Config.DEBUG = false;
         GUI.startUp();
     }
 
