@@ -14,4 +14,9 @@ public class NPC extends Living{
     public Damage getDmg() {
         return new Damage(1, Reference.PHYS_DMG, accuracy);
     }
+
+    @Override
+    public String toString(){
+        return "NPC 1";
+    }
 }

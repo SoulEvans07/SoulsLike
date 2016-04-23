@@ -52,4 +52,7 @@ public class Reference {
 
     // LogHelper related
     public static final int TAB_SIZE = 4;
+
+    // DEBUG values
+    public static final boolean DEBUG = true;
 }

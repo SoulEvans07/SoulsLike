@@ -16,6 +16,7 @@ public class Player extends Living{
         placeholder = new Color(147, 101, 250);
         health = 100;
         accuracy = 8; // max 9
+        name = "Soul";
     }
 
     public static Player getInstance(){
@@ -119,21 +120,27 @@ public class Player extends Living{
                 int type;
 
                 VPoint prev = at.getTile().vect();
+
+                if(at.getTile().getLiving() != null && at.getTile().getLiving() != instance)
+                    type = Reference.ATTACK_ACT;
+                else
+                    type = Reference.MOVE_ACT;
+
                 at = at.getParent();
 
                 while(at != null){
                     dir = prev.subtract(at.getTile().vect());
-
-                    if(at.getTile().getLiving() != null && at.getTile().getLiving() != instance)
-                        type = Reference.ATTACK_ACT;
-                    else
-                        type = Reference.MOVE_ACT;
 
                     Action temp = new Action(type, dir);
                     plan.add(temp);
 
                     prev = at.getTile().vect();
                     at = at.getParent();
+
+                    if(at != null && at.getTile().getLiving() != null && at.getTile().getLiving() != instance)
+                        type = Reference.ATTACK_ACT;
+                    else
+                        type = Reference.MOVE_ACT;
                 }
 
                 if(plan.size() == 0)
@@ -239,5 +246,10 @@ public class Player extends Living{
     int curseRes;
 
 
+
+    @Override
+    public String toString(){
+        return "Player named: " + name;
+    }
 
 }

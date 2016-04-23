@@ -1,5 +1,7 @@
 package com.darksouls.rougelike.model;
 
+import com.darksouls.rougelike.utility.LogHelper;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,9 +33,16 @@ public abstract class Living extends Entity {
         boolean ret = false;
 
         Tile target = this.pos.getNeighbor(dir);
-        if(target != null){
-            if(target.getLiving() != null && target.getLiving().gotHit(this.getDmg()))
+        if(target != null && target.getLiving() != null ){
+            LogHelper.writeLn(this.toString() + " attacked " + target.getLiving().toString());
+            LogHelper.lift();
+            if(target.getLiving().gotHit(this.getDmg())) {
+                LogHelper.writeLn("dmg type:\t" + this.getDmg().getType());
+                LogHelper.writeLn("dmg value:\t" + this.getDmg().getValue());
                 ret = true;
+            } else
+                LogHelper.writeLn("missed");
+            LogHelper.close();
         }
 
         return ret;

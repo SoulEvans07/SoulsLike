@@ -6,6 +6,7 @@ import com.darksouls.rougelike.model.Tile;
 import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
+import com.darksouls.rougelike.utility.LogHelper;
 import com.darksouls.rougelike.view.GamePanel;
 
 import java.awt.event.KeyAdapter;
@@ -62,11 +63,11 @@ public class Controller {
                             if (Player.getInstance().plan(tile)) {
                                 ArrayList<Action> plan = Player.getInstance().getPlan();
 
-
                                 while (plan.size() > 0) {
                                     if (!Player.getInstance().seeDanger()) {
                                         Action move = plan.get(plan.size() - 1); // get last
                                         move.exec(Player.getInstance());
+                                        LogHelper.writeLn(move.toString());
                                         plan.remove(plan.size() - 1);
                                     } else
                                         plan.clear(); // drop plan if danger seen

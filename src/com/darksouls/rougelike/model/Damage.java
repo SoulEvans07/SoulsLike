@@ -1,5 +1,7 @@
 package com.darksouls.rougelike.model;
 
+import com.darksouls.rougelike.references.Reference;
+
 public class Damage {
     private int value;
     private int damageType;
@@ -17,5 +19,20 @@ public class Damage {
 
     public int getValue() {
         return value;
+    }
+
+    public String getType(){
+        String type = "unknown";
+
+        switch (damageType){
+            case Reference.PHYS_DMG:
+                type = "Physical";
+                break;
+            case Reference.FIRE_DMG:
+                type = "Fire";
+                break;
+        }
+
+        return type;
     }
 }

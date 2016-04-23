@@ -15,8 +15,9 @@ public class Action {
         if(this.actionType == Reference.MOVE_ACT)
             entity.step(this.dir);
 
-        if(this.actionType == Reference.ATTACK_ACT)
+        if(this.actionType == Reference.ATTACK_ACT) {
             entity.attack(this.dir);
+        }
     }
 
     @Override
