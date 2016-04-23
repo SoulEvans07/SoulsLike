@@ -20,13 +20,17 @@ public class MenuPanel extends JPanel {
 
     private MenuPanel(){}
 
-    public static MenuPanel getInstance(){
-        if(instance == null) {
+    public static MenuPanel getInstance() {
+        if (instance == null) {
             instance = new MenuPanel();
             instance.init();
         }
 
         return instance;
+    }
+
+    public void setFocus(){
+        playBtn.requestFocus();
     }
 
 

@@ -63,6 +63,20 @@ public class GamePanel extends JPanel {
         canvas.repaint();
     }
 
+    public void gameOver(){
+        Object[] options = {"Ok"};
+        JPanel died = new JPanel();
+        JLabel text = new JLabel("You Died");
+        text.setFont(new Font(text.getFont().getName(), text.getFont().getStyle(), text.getFont().getSize()*2));
+        died.add(text);
+
+        int i = JOptionPane.showOptionDialog(GUI.getInstance(), died, "Game Over",
+                JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE, null,  options, options[0]);
+        if(i == 0) {
+            GUI.getInstance().back2Menu();
+        }
+    }
+
     public void windowUpdate(VPoint size){
         if(canvas.windowUpdate(size))
             canvas.repaint();

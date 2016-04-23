@@ -8,7 +8,7 @@ public class Reference {
     public static final String PROJ_VER = "vDEBUG";
 
     public static final String START_DATE = "Day01 2016.04.07";
-    public static final String TIME_STAMP = "Day03 2016.04.19";
+    public static final String TIME_STAMP = "Day04 2016.04.23";
 
     //----------GAME-DEFAULTS----------
     // Controls
@@ -58,5 +58,5 @@ public class Reference {
     public static final int TAB_SIZE = 4;
 
     // DEBUG values
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 }

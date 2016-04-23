@@ -19,6 +19,10 @@ public class Player extends Living{
         name = "Soul";
     }
 
+    public static void revive(){
+        instance = new Player();
+    }
+
     public static Player getInstance(){
         // TODO: Cant happen but throw error.
         if(instance == null) {

@@ -4,6 +4,7 @@ import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
 import com.darksouls.rougelike.utility.LogHelper;
+import com.darksouls.rougelike.view.GamePanel;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,6 +25,8 @@ public class DungeonLevel {
     private VPoint fieldSize;
 
     public void loadMap(){
+        Player.revive();
+
         fields = new ArrayList<>();
         fieldSize = new VPoint(33, 23);
 
@@ -37,6 +40,9 @@ public class DungeonLevel {
                 1 + Math.abs(r.nextInt()) % (fieldSize.y() - 2));
 
         Tile tmp;
+
+        // random enemy
+        npcs.add(new Enemy());
 
         for(int j = 0; j < fieldSize.y(); j++){
             for(int i = 0; i < fieldSize.x(); i++){
@@ -55,16 +61,16 @@ public class DungeonLevel {
                     tmp.stepOn(Player.getInstance());
                 }
 
-                // Random NPC
+
+                // random enemy placement
                 if(i == npc.x() && j == npc.y()){
-                    npcs.add(new Enemy());
                     npcs.get(0).setPos(tmp);
-                    npcs.get(0).addToView(tmp.vect(), Reference.TILE_HIDDEN);
                     tmp.stepOn(npcs.get(0));
                 }
 
                 // setting up Player view
                 Player.getInstance().addToView(tmp.vect(), Reference.TILE_HIDDEN);
+                npcs.get(0).addToView(tmp.vect(), Reference.TILE_HIDDEN);
 
                 fields.add(tmp);
             }
@@ -100,12 +106,19 @@ public class DungeonLevel {
             }
 
             if(n.plan()){
+                LogHelper.writeLn("NPC plan");
                 ArrayList<Action> plan = n.getPlan();
 
                 Action move = plan.get(plan.size() - 1); // get only the last
                 move.exec(n);
                 LogHelper.writeLn(move.toString());
                 plan.remove(plan.size() - 1);
+            }
+
+            if(Player.getInstance().getHp() <= 0){
+                Player.getInstance().getPos().removeLiving();
+                GamePanel.getInstance().getCanvas().repaint();
+                GamePanel.getInstance().gameOver();
             }
         }
     }

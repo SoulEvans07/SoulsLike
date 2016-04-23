@@ -14,6 +14,7 @@ public class Enemy extends Living{
 
     public Enemy(){
         health = 10;
+        accuracy = 5;
         placeholder = Colors.enemy;
     }
 
@@ -107,7 +108,6 @@ public class Enemy extends Living{
     public void addToView(VPoint pos, int flag){
         if(viewed == null)
             viewed = new ViewMap();
-
         viewed.set(pos, flag);
     }
 
@@ -170,7 +170,7 @@ public class Enemy extends Living{
 
     @Override
     public Damage getDmg() {
-        return new Damage(1, Reference.PHYS_DMG, accuracy);
+        return new Damage(2, Reference.PHYS_DMG, accuracy);
     }
 
     @Override

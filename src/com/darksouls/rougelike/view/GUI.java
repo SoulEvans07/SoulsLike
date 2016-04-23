@@ -69,6 +69,7 @@ public class GUI extends JFrame{
     public void back2Menu(){
         //Clock.stopClock();
         this.setContentPane(MenuPanel.getInstance());
+        MenuPanel.getInstance().setFocus();
         this.setVisible(true);
     }
 

@@ -52,7 +52,9 @@ public abstract class Living extends Entity {
     public boolean gotHit(Damage dmg){
         boolean hit = false;
         Random r = new Random();
-        if(Math.abs(r.nextInt()) % 10 < dmg.getHitRate()){
+        int random = Math.abs(r.nextInt());
+        LogHelper.writeLn(random % 10);
+        if(random % 10 < dmg.getHitRate()){
             this.health -= dmg.getValue();
             hit = true;
         }

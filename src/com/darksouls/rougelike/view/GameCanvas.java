@@ -5,6 +5,7 @@ import com.darksouls.rougelike.model.Player;
 import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Colors;
 import com.darksouls.rougelike.references.Config;
+import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
 
 import java.awt.*;
@@ -85,8 +86,8 @@ public class GameCanvas extends Canvas {
                 }
             }
 
-            // TODO: Temporary point
-            if(point != null) {
+            // TODO: Temporary line
+            if(Reference.DEBUG && point != null) {
                 bufferGraphics.setColor(Colors.spawnCell);
                 point = GuiMagic.getFieldCoord(point);
                 bufferGraphics.drawLine((int)point.x(), (int)point.y(),
