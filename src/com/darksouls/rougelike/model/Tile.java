@@ -48,6 +48,11 @@ public class Tile {
         return livingEntity;
     }
 
+    public void removeLiving(){
+        if(livingEntity.getHp() <= 0)
+            livingEntity = null;
+    }
+
     public void stepOff(Living off){
         this.livingEntity = null;
     }

@@ -35,6 +35,10 @@ public class Reference {
     public static final int PHYS_DMG = 0;
     public static final int FIRE_DMG = 1;
 
+    // LivingClasses
+    public static final int PLAYER = 0;
+    public static final int NPC = 1;
+    public static final int MOB = 2;
 
     //---------CLASS-REFERENCES--------
     // Clock related

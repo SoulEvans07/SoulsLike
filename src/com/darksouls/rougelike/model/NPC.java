@@ -12,11 +12,16 @@ public class NPC extends Living{
 
     @Override
     public Damage getDmg() {
-        return new Damage(1, Reference.PHYS_DMG, accuracy);
+        return new Damage(0, Reference.PHYS_DMG, accuracy);
     }
 
     @Override
     public String toString(){
         return "NPC 1";
+    }
+
+    @Override
+    public int getLivingClass(){
+        return Reference.NPC;
     }
 }

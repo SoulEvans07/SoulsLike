@@ -3,6 +3,7 @@ package com.darksouls.rougelike.model;
 import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
+import com.darksouls.rougelike.utility.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,6 +14,7 @@ public class DungeonLevel {
 
     //VPoint playerPos;
     //ArrayList<VPoint> npcPos;
+    ArrayList<Enemy> npcs;
     private ArrayList<Tile> fields;
 
     public VPoint getLevelSize() {
@@ -28,6 +30,8 @@ public class DungeonLevel {
         // TODO: get map entrance
         VPoint entrance = new VPoint(1, 1);
         Random r = new Random();
+
+        npcs = new ArrayList<>();
 
         VPoint npc = new VPoint( 1 + Math.abs(r.nextInt()) % (fieldSize.x() - 2),
                 1 + Math.abs(r.nextInt()) % (fieldSize.y() - 2));
@@ -53,9 +57,10 @@ public class DungeonLevel {
 
                 // Random NPC
                 if(i == npc.x() && j == npc.y()){
-                    NPC one = new NPC();
-                    one.setPos(tmp);
-                    tmp.stepOn(one);
+                    npcs.add(new Enemy());
+                    npcs.get(0).setPos(tmp);
+                    npcs.get(0).addToView(tmp.vect(), Reference.TILE_HIDDEN);
+                    tmp.stepOn(npcs.get(0));
                 }
 
                 // setting up Player view
@@ -64,9 +69,6 @@ public class DungeonLevel {
                 fields.add(tmp);
             }
         }
-
-        // start the level with looking around
-        Player.getInstance().lookAround();
 
         // neighbors
         for(int y = 0; y < fieldSize.y(); y++){
@@ -77,10 +79,35 @@ public class DungeonLevel {
                 this.getTile(x, y).addNeighbor(this.getTile(x-1, y  )); //left
             }
         }
+
+        // start the level with looking around
+        Player.getInstance().lookAround();
+
+        // npcs as well
+        for(Enemy n : npcs){
+            n.lookAround();
+        }
     }
 
     public void tick(){
+        for(int i = 0; i < npcs.size(); i++){
+            Enemy n = npcs.get(i);
 
+            if(n.getHp() <= 0){
+                n.getPos().removeLiving();
+                npcs.remove(i);
+                continue;
+            }
+
+            if(n.plan()){
+                ArrayList<Action> plan = n.getPlan();
+
+                Action move = plan.get(plan.size() - 1); // get only the last
+                move.exec(n);
+                LogHelper.writeLn(move.toString());
+                plan.remove(plan.size() - 1);
+            }
+        }
     }
 
 

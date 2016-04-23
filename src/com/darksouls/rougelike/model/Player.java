@@ -14,7 +14,7 @@ public class Player extends Living{
 
     private Player(){
         placeholder = new Color(147, 101, 250);
-        health = 100;
+        health = 20;
         accuracy = 8; // max 9
         name = "Soul";
     }
@@ -52,7 +52,7 @@ public class Player extends Living{
 
     @Override
     public Damage getDmg(){
-        return new Damage(1, Reference.PHYS_DMG, accuracy);
+        return new Damage(3, Reference.PHYS_DMG, accuracy);
     }
 
     @Override
@@ -250,6 +250,11 @@ public class Player extends Living{
     @Override
     public String toString(){
         return "Player named: " + name;
+    }
+
+    @Override
+    public int getLivingClass(){
+        return Reference.PLAYER;
     }
 
 }

@@ -42,6 +42,7 @@ public abstract class Living extends Entity {
                 ret = true;
             } else
                 LogHelper.writeLn("missed");
+            LogHelper.writeLn(target.getLiving().toString() + " health: " + target.getLiving().getHp());
             LogHelper.close();
         }
 
@@ -63,5 +64,11 @@ public abstract class Living extends Entity {
         return plan;
     }
 
+    public int getHp(){
+        return health;
+    }
+
     public abstract Damage getDmg();
+
+    public abstract int getLivingClass();
 }
