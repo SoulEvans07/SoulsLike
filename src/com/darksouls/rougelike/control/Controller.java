@@ -48,11 +48,10 @@ public class Controller {
         @Override
         public void mouseReleased(MouseEvent e) {
             if(e.getButton() == MouseEvent.BUTTON1) {
-                VPoint tmp = new VPoint(e.getPoint()).addX(-2).addY(-2);    // -2 is correction, so its on the tip of the cursor
-                GamePanel.getInstance().getCanvas().point = tmp;
-                GamePanel.getInstance().getCanvas().repaint();
+                GamePanel.getInstance().getCanvas().point = null;
                 GamePanel.getInstance().requestFocus();
 
+                VPoint tmp = new VPoint(e.getPoint()).addX(-2).addY(-2);    // -2 is correction, so its on the tip of the cursor
                 VPoint field = GuiMagic.getFieldCenter(tmp);
 
                 Tile tile;
@@ -77,7 +76,9 @@ public class Controller {
                     }
                 }
             } else {
-                GamePanel.getInstance().getCanvas().point = null;
+                VPoint tmp = new VPoint(e.getPoint()).addX(-2).addY(-2);    // -2 is correction, so its on the tip of the cursor
+                GamePanel.getInstance().getCanvas().point = tmp;
+                GamePanel.getInstance().getCanvas().repaint();
                 GamePanel.getInstance().requestFocus();
             }
         }

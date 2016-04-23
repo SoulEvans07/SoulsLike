@@ -119,7 +119,7 @@ public class Tile {
                 if (visibility == Reference.TILE_SEEN)
                     ret = ret.darker().darker();
                 if (visibility == Reference.TILE_HIDDEN)
-                    ret = ret.darker().darker().darker().darker().darker();
+                    ret = ret.darker().darker().darker().darker().darker().darker().darker();
             }
         }
 
