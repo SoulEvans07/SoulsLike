@@ -45,7 +45,7 @@ public class GameCanvas extends Canvas {
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
+        //super.paint(g);
         LogHelper.comment("canvas.paint");
         Graphics2D g2 = (Graphics2D) g;
         drawLevel(g2);
@@ -103,7 +103,8 @@ public class GameCanvas extends Canvas {
                         (int)Player.getInstance().getPos().mVect().y());
             }
 
-            g.drawImage(offscreen, 0, 0, this);
+            if(g != null)
+                g.drawImage(offscreen, 0, 0, this);
         } else {
             offscreen = createImage((int) Math.ceil(cols*Config.FIELD_SIZE),
                     (int) Math.ceil(rows*Config.FIELD_SIZE));

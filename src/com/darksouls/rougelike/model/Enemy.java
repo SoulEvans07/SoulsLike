@@ -170,7 +170,7 @@ public class Enemy extends Living{
 
     @Override
     public Damage getDmg() {
-        return new Damage(2, Reference.PHYS_DMG, accuracy);
+        return new Damage(10, Reference.PHYS_DMG, accuracy);
     }
 
     @Override

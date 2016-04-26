@@ -59,13 +59,15 @@ public class GamePanel extends JPanel {
     }
 
     public void tick(){
-        dungeonLevel.tick();
+        if(dungeonLevel != null)
+            dungeonLevel.tick();
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        canvas.paint(canvas.getGraphics());
+        if(canvas.getGraphics() != null)
+            canvas.paint(canvas.getGraphics());
     }
 
     public void gameOver(){
