@@ -46,7 +46,6 @@ public class GameCanvas extends Canvas {
     @Override
     public void paint(Graphics g) {
         //super.paint(g);
-        LogHelper.comment("canvas.paint");
         Graphics2D g2 = (Graphics2D) g;
         drawLevel(g2);
     }
@@ -71,7 +70,6 @@ public class GameCanvas extends Canvas {
 
     private void drawLevel(Graphics2D g) {
         if(bufferGraphics != null) {
-            LogHelper.comment("canvas.drawLevel");
             bufferGraphics.clearRect(0, 0, (int) Math.ceil(cols*Config.FIELD_SIZE),
                     (int) Math.ceil(rows*Config.FIELD_SIZE));
             bufferGraphics.setColor(Colors.line);

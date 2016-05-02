@@ -63,10 +63,8 @@ public class Player extends Living{
     public boolean step(VPoint dir){
         boolean ret = super.step(dir);
         if(ret) {
-            //LogHelper.writeLn("------------------------------");
-            LogHelper.error("player TICK");
-            Clock.tick();
             this.lookAround();
+            Clock.tick();
         }
         return ret;
     }
@@ -159,7 +157,7 @@ public class Player extends Living{
 
             NodeList neighbours = new NodeList();
             for (Tile n : at.getTile().getNeighbors()){
-                if(n.isTransparent()) {
+                if(this.getVisibilityLevel(n.pos) != Reference.TILE_HIDDEN && n.isTransparent()) {
                     Node tmp = new Node(n, goal);
 
                     if (closed.contains(tmp)) {

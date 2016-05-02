@@ -66,7 +66,7 @@ public class Controller {
                                     if (!Player.getInstance().seeDanger()) {
                                         Action move = plan.get(plan.size() - 1); // get last
                                         move.exec(Player.getInstance());
-                                        LogHelper.writeLn(move.toString());
+                                        //LogHelper.writeLn(move.toString());
                                         plan.remove(plan.size() - 1);
                                     } else
                                         plan.clear(); // drop plan if danger seen
@@ -111,12 +111,12 @@ public class Controller {
                     break;
             }
 
-            if(!Player.getInstance().attack(dir))
+            if(!Player.getInstance().attack(dir)) {
                 validAction = Player.getInstance().step(dir);
-
-            if(validAction)
-                Player.getInstance().seeDanger(); // clears unseen npc from ignore list
-            //    Clock.tick();
+                if (validAction)
+                    Player.getInstance().seeDanger(); // clears unseen npc from ignore list
+                //    Clock.tick();
+            }
         }
     }
 }
