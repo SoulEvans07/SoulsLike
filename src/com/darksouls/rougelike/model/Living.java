@@ -32,6 +32,8 @@ public abstract class Living extends Entity {
     public boolean attack(VPoint dir){
         boolean ret = false;
 
+        LogHelper.mute();
+
         Tile target = this.pos.getNeighbor(dir);
         if(target != null && target.getLiving() != null ){
             LogHelper.writeLn(this.toString() + " attacked " + target.getLiving().toString());
@@ -45,6 +47,8 @@ public abstract class Living extends Entity {
             LogHelper.writeLn(target.getLiving().toString() + " health: " + target.getLiving().getHp());
             LogHelper.close();
         }
+
+        LogHelper.unMute();
 
         return ret;
     }

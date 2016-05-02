@@ -112,9 +112,13 @@ public class Player extends Living{
         NodeList open = new NodeList();
         NodeList closed = new NodeList();
 
+        LogHelper.error("---------------------------");
+
         open.add(start);
 
         while(open.size() > 0){
+            LogHelper.error("open: " + open.size() + " closed: " + closed.size());
+
             Node at = open.get(0);
             if(at.getTile().vect().equals(goal.vect())){
                 plan = new ArrayList<>();
@@ -178,6 +182,8 @@ public class Player extends Living{
             for(Node n : neighbours.getList()){
                 boolean temp = (!open.contains(n) && !closed.contains(n)) ||  (at.getDist() + 1 < n.getSteps());
                 if(temp){
+                    open.remove(n);
+
                     n.setSteps(at.getSteps() + 1);
                     n.setParent(at);
 
