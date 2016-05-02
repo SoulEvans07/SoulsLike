@@ -112,12 +112,12 @@ public class Player extends Living{
         NodeList open = new NodeList();
         NodeList closed = new NodeList();
 
-        LogHelper.error("---------------------------");
+        //LogHelper.error("---------------------------");
 
         open.add(start);
 
         while(open.size() > 0){
-            LogHelper.error("open: " + open.size() + " closed: " + closed.size());
+            //LogHelper.error("open: " + open.size() + " closed: " + closed.size());
 
             Node at = open.get(0);
             if(at.getTile().vect().equals(goal.vect())){
