@@ -64,6 +64,7 @@ public class DungeonLevel {
 
                 // random enemy placement
                 if(i == npc.x() && j == npc.y()){
+                    LogHelper.comment(npc.toString());
                     npcs.get(0).setPos(tmp);
                     tmp.stepOn(npcs.get(0));
                 }
@@ -106,12 +107,12 @@ public class DungeonLevel {
             }
 
             if(n.plan()){
-                LogHelper.writeLn("NPC plan");
+                //LogHelper.writeLn("NPC plan");
                 ArrayList<Action> plan = n.getPlan();
 
                 Action move = plan.get(plan.size() - 1); // get only the last
                 move.exec(n);
-                LogHelper.writeLn(move.toString());
+                //LogHelper.writeLn(move.toString());
                 plan.remove(plan.size() - 1);
             }
 

@@ -151,7 +151,7 @@ public class Enemy extends Living{
                 Living living = GamePanel.getInstance().getDungeonLevel().getTile(p).getLiving();
                 if (living != null && living != this && living.getLivingClass() == Reference.PLAYER) {
                     target = living.getPos();
-                    LogHelper.writeLn("found: " + target.toString());
+                    //LogHelper.writeLn("found: " + target.toString());
                 }
             }
         }

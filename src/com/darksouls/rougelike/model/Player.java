@@ -140,8 +140,12 @@ public class Player extends Living{
                     prev = at.getTile().vect();
                     at = at.getParent();
 
+                    //if(at != null && at.getTile().getLiving() != null && at.getTile().getLiving() != instance)
                     if(at != null && at.getTile().getLiving() != null && at.getTile().getLiving() != instance)
-                        type = Reference.ATTACK_ACT;
+                        if(at.getTile().equals(goal))
+                            type = Reference.ATTACK_ACT;
+                        else
+                            return true;
                     else
                         type = Reference.MOVE_ACT;
                 }
