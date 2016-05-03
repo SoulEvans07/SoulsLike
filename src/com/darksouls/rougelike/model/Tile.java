@@ -49,8 +49,9 @@ public class Tile {
     }
 
     public void removeLiving(){
-        if(livingEntity.getHp() <= 0)
+        if(livingEntity.getHp() <= 0) {
             livingEntity = null;
+        }
     }
 
     public void stepOff(Living off){

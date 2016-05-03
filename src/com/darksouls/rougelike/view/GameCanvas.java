@@ -1,9 +1,6 @@
 package com.darksouls.rougelike.view;
 
-import com.darksouls.rougelike.model.DungeonLevel;
-import com.darksouls.rougelike.model.Living;
-import com.darksouls.rougelike.model.Player;
-import com.darksouls.rougelike.model.VPoint;
+import com.darksouls.rougelike.model.*;
 import com.darksouls.rougelike.references.Colors;
 import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.utility.GuiMagic;
@@ -116,24 +113,32 @@ public class GameCanvas extends Canvas {
     }
 
     private void drawHUD() {
+        bufferGraphics.setColor(new Color(164, 0, 0));
+        bufferGraphics.fillRect(0, 0, Player.getInstance().getMaxHp() * 10, Config.FIELD_SIZE / 4);
         bufferGraphics.setColor(new Color(255, 0, 0));
         bufferGraphics.fillRect(0, 0, Player.getInstance().getHp() * 10, Config.FIELD_SIZE / 4);
 
-        if (Player.getInstance().getSeen() != null && Player.getInstance().getSeen().size() > 0)
-            for (Living t : Player.getInstance().getSeen()) {
-                if (t != null && t.getHp() != t.getMaxHp())
-                    this.drawHP(t.getPos().vect(), t.getHp(), t.getMaxHp());
+        if (Player.getInstance().getSeenPos() != null && Player.getInstance().getSeenPos().size() > 0)
+            for (VPoint vp : Player.getInstance().getSeenPos()) {
+                if(vp != null) {
+                    Tile tmp = GamePanel.getInstance().getDungeonLevel().getTile(vp);
+                    if (tmp !=null && tmp.getLiving() != null && tmp.getLiving().getHp() != tmp.getLiving().getMaxHp())
+                    this.drawHP(tmp.vect(), tmp.getLiving().getHp(), tmp.getLiving().getMaxHp());
+                }
             }
     }
 
     private void drawHP(VPoint pos, int hp, int maxHp) {
-        bufferGraphics.setColor(new Color(255, 0, 0));
 
         int max = Config.FIELD_SIZE;
         float length = (float)max * ((float)hp / (float)maxHp);
 
         VPoint start = pos.multiply(Config.FIELD_SIZE)
                 .addY(-Config.FIELD_SIZE / 4);
+
+        bufferGraphics.setColor(new Color(164, 0, 0));
+        bufferGraphics.fillRect(start.getX(), start.getY(), max, Config.FIELD_SIZE / 8);
+        bufferGraphics.setColor(new Color(255, 0, 0));
         bufferGraphics.fillRect(start.getX(), start.getY(), Math.round(length), Config.FIELD_SIZE / 8);
     }
 

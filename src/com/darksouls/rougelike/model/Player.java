@@ -108,8 +108,14 @@ public class Player extends Living{
         return danger;
     }
 
-    public ArrayList<Living> getSeen(){
-        return seen;
+    public ArrayList<VPoint> getSeenPos(){
+        ArrayList<VPoint> tiles = null;
+        if(seen != null && seen.size() > 0) {
+            tiles = new ArrayList<>();
+            for (Living l : seen)
+                tiles.add(l.getPos().vect());
+        }
+        return tiles;
     }
 
     // A* algorithm

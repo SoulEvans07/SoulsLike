@@ -1,6 +1,5 @@
 package com.darksouls.rougelike.control;
 
-import com.darksouls.rougelike.utility.LogHelper;
 import com.darksouls.rougelike.view.GamePanel;
 
 import javax.swing.*;
@@ -15,6 +14,18 @@ public class Clock {
         counter++;
         // tick game elements
         GamePanel.getInstance().tick();
+    }
+
+    // only for animation
+    public static void canvasTick(){
+        if(GamePanel.getInstance().getCanvas().getGraphics() != null) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            GamePanel.getInstance().getCanvas().paint(GamePanel.getInstance().getCanvas().getGraphics());
+        }
     }
 
     // TODO: no need for it yet
