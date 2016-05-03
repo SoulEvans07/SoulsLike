@@ -8,7 +8,7 @@ public class Reference {
     public static final String PROJ_VER = "vDEBUG";
 
     public static final String START_DATE = "Day01 2016.04.07";
-    public static final String TIME_STAMP = "Day05 2016.05.02";
+    public static final String TIME_STAMP = "Day06 2016.05.03";
 
     //----------GAME-DEFAULTS----------
     // Controls
