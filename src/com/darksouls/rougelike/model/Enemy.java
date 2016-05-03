@@ -13,7 +13,7 @@ public class Enemy extends Living{
     private Tile target;
 
     public Enemy(){
-        health = 10;
+        health = maxHealth =  10;
         accuracy = 5;
         placeholder = Colors.enemy;
     }

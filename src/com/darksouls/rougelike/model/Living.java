@@ -10,7 +10,8 @@ public abstract class Living extends Entity {
 
     protected ArrayList<Action> plan;
 
-    protected int health;         // HP from VIT
+    protected int health;
+    protected int maxHealth;      // HP from VIT
 
     // TODO: temporary:
     int accuracy;        // HIT
@@ -32,6 +33,8 @@ public abstract class Living extends Entity {
     public boolean attack(VPoint dir){
         boolean ret = false;
 
+        LogHelper.mute();
+
         Tile target = this.pos.getNeighbor(dir);
         if(target != null && target.getLiving() != null ){
             LogHelper.writeLn(this.toString() + " attacked " + target.getLiving().toString());
@@ -45,6 +48,8 @@ public abstract class Living extends Entity {
             LogHelper.writeLn(target.getLiving().toString() + " health: " + target.getLiving().getHp());
             LogHelper.close();
         }
+
+        LogHelper.unMute();
 
         return ret;
     }
@@ -68,6 +73,10 @@ public abstract class Living extends Entity {
 
     public int getHp(){
         return health;
+    }
+
+    public int getMaxHp() {
+        return maxHealth;
     }
 
     public abstract Damage getDmg();

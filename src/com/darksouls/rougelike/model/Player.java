@@ -14,7 +14,7 @@ public class Player extends Living{
 
     private Player(){
         placeholder = new Color(147, 101, 250);
-        health = 20;
+        health = maxHealth =  20;
         accuracy = 8; // max 9
         name = "Soul";
     }
@@ -38,6 +38,7 @@ public class Player extends Living{
 
     private ViewMap viewed;
 
+    private ArrayList<Living> seen;
     private ArrayList<Living> ignore;
 
     public void addToView(VPoint pos, int flag){
@@ -81,7 +82,7 @@ public class Player extends Living{
 
     public boolean seeDanger(){
         boolean danger = false;
-        ArrayList<Living> seen = new ArrayList<>();
+        seen = new ArrayList<>();
 
         if(ignore == null)
             ignore = new ArrayList<>();
@@ -90,10 +91,12 @@ public class Player extends Living{
             VPoint p = viewed.getKeys().get(i);
             if(viewed.get(p) == Reference.TILE_VISIBLE) {
                 Living living = GamePanel.getInstance().getDungeonLevel().getTile(p).getLiving();
-                seen.add(living);
-                if (living != null && living != instance && !ignore.contains(living)) {
-                    danger = true;
-                    ignore.add(living);
+                if(living != null && living != instance) {
+                    seen.add(living);
+                    if (!ignore.contains(living)) {
+                        danger = true;
+                        ignore.add(living);
+                    }
                 }
             }
         }
@@ -103,6 +106,10 @@ public class Player extends Living{
                 ignore.remove(i);
 
         return danger;
+    }
+
+    public ArrayList<Living> getSeen(){
+        return seen;
     }
 
     // A* algorithm

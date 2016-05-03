@@ -1,12 +1,12 @@
 package com.darksouls.rougelike.view;
 
 import com.darksouls.rougelike.model.DungeonLevel;
+import com.darksouls.rougelike.model.Living;
 import com.darksouls.rougelike.model.Player;
 import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Colors;
 import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.utility.GuiMagic;
-import com.darksouls.rougelike.utility.LogHelper;
 
 import java.awt.*;
 import java.awt.event.KeyListener;
@@ -24,19 +24,19 @@ public class GameCanvas extends Canvas {
 
     private DungeonLevel level;
 
-    public GameCanvas(DungeonLevel l){
+    public GameCanvas(DungeonLevel l) {
         super();
 
         level = l;
 
-        for(KeyListener kL : GamePanel.getInstance().getKeyListeners()){
+        for (KeyListener kL : GamePanel.getInstance().getKeyListeners()) {
             this.addKeyListener(kL);
         }
 
         cols = (int) level.getLevelSize().x();
         rows = (int) level.getLevelSize().y();
 
-        offscreen = createImage((int) Math.ceil(cols*fieldSize), (int) Math.ceil(rows*fieldSize));
+        offscreen = createImage((int) Math.ceil(cols * fieldSize), (int) Math.ceil(rows * fieldSize));
         if (offscreen != null)
             bufferGraphics = offscreen.getGraphics();
 
@@ -51,12 +51,12 @@ public class GameCanvas extends Canvas {
     }
 
     @Override
-    public void repaint(){
+    public void repaint() {
         super.repaint();
     }
 
     @Override
-    public void update(Graphics g){
+    public void update(Graphics g) {
         super.update(g);
     }
 
@@ -65,13 +65,13 @@ public class GameCanvas extends Canvas {
     // http://stackoverflow.com/questions/27136250/awt-canvas-bufferstrategy-and-resize-flickering
     // https://community.oracle.com/thread/1263801?start=0&tstart=0
 
-    // TODO: Temporary point
+    // TODO: Temporary point for ruler
     public VPoint point;
 
     private void drawLevel(Graphics2D g) {
-        if(bufferGraphics != null) {
-            bufferGraphics.clearRect(0, 0, (int) Math.ceil(cols*Config.FIELD_SIZE),
-                    (int) Math.ceil(rows*Config.FIELD_SIZE));
+        if (bufferGraphics != null) {
+            bufferGraphics.clearRect(0, 0, (int) Math.ceil(cols * Config.FIELD_SIZE),
+                    (int) Math.ceil(rows * Config.FIELD_SIZE));
             bufferGraphics.setColor(Colors.line);
 
             VPoint temp = new VPoint();
@@ -87,25 +87,27 @@ public class GameCanvas extends Canvas {
                     bufferGraphics.setColor(c);
                     //bufferGraphics.fillRect((int) Math.floor(x * fieldSize), (int) Math.floor(y * fieldSize),
                     //        (int) Math.ceil(fieldSize), (int) Math.ceil(fieldSize));
-                    bufferGraphics.fillRect(x*Config.FIELD_SIZE, y*Config.FIELD_SIZE,
+                    bufferGraphics.fillRect(x * Config.FIELD_SIZE, y * Config.FIELD_SIZE,
                             Config.FIELD_SIZE, Config.FIELD_SIZE);
                 }
             }
 
-            // TODO: Temporary line
-            if(Config.DEBUG && point != null) {
+            // TODO: Temporary ruler line
+            if (Config.DEBUG && point != null) {
                 bufferGraphics.setColor(Colors.spawnCell);
                 point = GuiMagic.getFieldCoord(point);
-                bufferGraphics.drawLine((int)point.x(), (int)point.y(),
-                        (int)Player.getInstance().getPos().mVect().x(),
-                        (int)Player.getInstance().getPos().mVect().y());
+                bufferGraphics.drawLine((int) point.x(), (int) point.y(),
+                        (int) Player.getInstance().getPos().mVect().x(),
+                        (int) Player.getInstance().getPos().mVect().y());
             }
 
-            if(g != null)
+            this.drawHUD();
+
+            if (g != null)
                 g.drawImage(offscreen, 0, 0, this);
         } else {
-            offscreen = createImage((int) Math.ceil(cols*Config.FIELD_SIZE),
-                    (int) Math.ceil(rows*Config.FIELD_SIZE));
+            offscreen = createImage((int) Math.ceil(cols * Config.FIELD_SIZE),
+                    (int) Math.ceil(rows * Config.FIELD_SIZE));
             if (offscreen != null) {
                 bufferGraphics = offscreen.getGraphics();
                 repaint();
@@ -113,8 +115,30 @@ public class GameCanvas extends Canvas {
         }
     }
 
-    public boolean windowUpdate(VPoint size){
-        if(Math.min(size.x() / cols, size.y() / rows) == Config.FIELD_SIZE)
+    private void drawHUD() {
+        bufferGraphics.setColor(new Color(255, 0, 0));
+        bufferGraphics.fillRect(0, 0, Player.getInstance().getHp() * 10, Config.FIELD_SIZE / 4);
+
+        if (Player.getInstance().getSeen() != null && Player.getInstance().getSeen().size() > 0)
+            for (Living t : Player.getInstance().getSeen()) {
+                if (t != null && t.getHp() != t.getMaxHp())
+                    this.drawHP(t.getPos().vect(), t.getHp(), t.getMaxHp());
+            }
+    }
+
+    private void drawHP(VPoint pos, int hp, int maxHp) {
+        bufferGraphics.setColor(new Color(255, 0, 0));
+
+        int max = Config.FIELD_SIZE;
+        float length = (float)max * ((float)hp / (float)maxHp);
+
+        VPoint start = pos.multiply(Config.FIELD_SIZE)
+                .addY(-Config.FIELD_SIZE / 4);
+        bufferGraphics.fillRect(start.getX(), start.getY(), Math.round(length), Config.FIELD_SIZE / 8);
+    }
+
+    public boolean windowUpdate(VPoint size) {
+        if (Math.min(size.x() / cols, size.y() / rows) == Config.FIELD_SIZE)
             return false;
 
         width = size.x();
