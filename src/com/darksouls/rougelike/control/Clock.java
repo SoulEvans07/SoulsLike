@@ -14,16 +14,17 @@ public class Clock {
         counter++;
         // tick game elements
         GamePanel.getInstance().tick();
+        canvasTick();
     }
 
     // only for animation
     public static void canvasTick(){
         if(GamePanel.getInstance().getCanvas().getGraphics() != null) {
-            try {
+            /*try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
             GamePanel.getInstance().getCanvas().paint(GamePanel.getInstance().getCanvas().getGraphics());
         }
     }

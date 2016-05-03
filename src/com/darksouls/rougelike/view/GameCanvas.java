@@ -122,7 +122,8 @@ public class GameCanvas extends Canvas {
             for (VPoint vp : Player.getInstance().getSeenPos()) {
                 if(vp != null) {
                     Tile tmp = GamePanel.getInstance().getDungeonLevel().getTile(vp);
-                    if (tmp !=null && tmp.getLiving() != null && tmp.getLiving().getHp() != tmp.getLiving().getMaxHp())
+                    if (tmp !=null && tmp.getLiving() != null && tmp.getLiving() != Player.getInstance() &&
+                    tmp.getLiving().getHp() != tmp.getLiving().getMaxHp())
                     this.drawHP(tmp.vect(), tmp.getLiving().getHp(), tmp.getLiving().getMaxHp());
                 }
             }
