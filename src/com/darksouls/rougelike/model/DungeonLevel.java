@@ -112,7 +112,6 @@ public class DungeonLevel {
 
                 Action move = plan.get(plan.size() - 1); // get only the last
                 move.exec(n);
-                //Clock.canvasTick();
                 //LogHelper.writeLn(move.toString());
                 plan.remove(plan.size() - 1);
             }

@@ -3,8 +3,9 @@ package com.darksouls.rougelike.references;
 import java.awt.*;
 
 public class Colors {
-    public static final Color player = new Color(117, 0, 184);
-    public static final Color enemy = new Color(227, 0, 0);
+    public static final Color player = new Color(0, 43, 255);
+    //public static final Color player = new Color(147, 101, 250);
+    public static final Color enemy = new Color(128, 0, 227);
 
     public static final Color freeCell = new Color(240, 240, 240);
     public static final Color wallCell = new Color(94, 61, 0);

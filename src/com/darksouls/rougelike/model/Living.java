@@ -21,6 +21,7 @@ public abstract class Living extends Entity {
         boolean ret = false;
         Tile neighbor = this.pos.getNeighbor(dir);
 
+        LogHelper.mute();
         LogHelper.writeLn("step: " + dir.toString());
         LogHelper.lift();
 
@@ -35,12 +36,13 @@ public abstract class Living extends Entity {
         }
 
         LogHelper.close();
+        LogHelper.unMute();
 
         return ret;
     }
 
-    public boolean attack(VPoint dir){
-        boolean ret = false;
+    public int attack(VPoint dir){
+        int ret = -2;
 
         LogHelper.mute();
 
@@ -51,9 +53,11 @@ public abstract class Living extends Entity {
             if(target.getLiving().gotHit(this.getDmg())) {
                 LogHelper.writeLn("dmg type:\t" + this.getDmg().getType());
                 LogHelper.writeLn("dmg value:\t" + this.getDmg().getValue());
-                ret = true;
-            } else
+                ret = this.getDmg().getValue();
+            } else {
                 LogHelper.writeLn("missed");
+                ret = -1;
+            }
             LogHelper.writeLn(target.getLiving().toString() + " health: " + target.getLiving().getHp());
             LogHelper.close();
         }

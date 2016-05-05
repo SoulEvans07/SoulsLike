@@ -129,6 +129,21 @@ public class GameCanvas extends Canvas {
             }
     }
 
+    private static Font monoFont = new Font("Monospaced", Font.BOLD , 16);
+
+    public void drawDMG(String dmg, VPoint from, VPoint dir, int delta){
+        bufferGraphics.setColor(new Color(255, 0, 38));
+        VPoint up = new VPoint(0, Config.FIELD_SIZE / 8 - delta);
+
+        bufferGraphics.setFont(monoFont);
+        FontMetrics fm = bufferGraphics.getFontMetrics();
+        int w = fm.stringWidth(dmg);
+        int h = fm.getAscent();
+        bufferGraphics.drawString(dmg, from.getX() + dir.getX()*Config.FIELD_SIZE + up.getX() - (w / 2), from.getY() + dir.getY()*Config.FIELD_SIZE + up.getY() + (h / 4));
+        if (GamePanel.getInstance().getCanvas().getGraphics() != null)
+            GamePanel.getInstance().getCanvas().getGraphics().drawImage(offscreen, 0, 0, this);
+    }
+
     private void drawHP(VPoint pos, int hp, int maxHp) {
 
         int max = Config.FIELD_SIZE;

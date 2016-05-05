@@ -6,6 +6,7 @@ import com.darksouls.rougelike.model.Tile;
 import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
+import com.darksouls.rougelike.utility.LogHelper;
 import com.darksouls.rougelike.view.GamePanel;
 
 import java.awt.event.KeyAdapter;
@@ -13,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Controller {
     private static Controller instance;
@@ -110,11 +112,26 @@ public class Controller {
                     break;
             }
 
-            if(!Player.getInstance().attack(dir)) {
+            int dmg = Player.getInstance().attack(dir);
+            if(dmg <= -2) {
                 validAction = Player.getInstance().step(dir);
                 if (validAction)
                     Player.getInstance().seeDanger(); // clears unseen npc from ignore list
                 //    Clock.tick();
+            } else if(dmg == -1) {
+                // TODO : draw miss
+                //LogHelper.error("miss");
+                for(int i = 0; i < 10; i++){
+                    GamePanel.getInstance().getCanvas().drawDMG("miss", Player.getInstance().getPos().mVect(), dir, i);
+                    Clock.animationTick();
+                }
+            } else if(dmg >= 0) {
+                // TODO : draw dmg
+                //LogHelper.error("dmg");
+                for(int i = 0; i < 10; i++){
+                    GamePanel.getInstance().getCanvas().drawDMG("" + dmg, Player.getInstance().getPos().mVect(), dir, i);
+                    Clock.animationTick();
+                }
             }
         }
     }

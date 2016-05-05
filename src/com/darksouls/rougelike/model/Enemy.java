@@ -12,7 +12,7 @@ public class Enemy extends Living{
 
     public Enemy(){
         health = maxHealth =  10;
-        accuracy = 5;
+        accuracy = 7;
         placeholder = Colors.enemy;
     }
 

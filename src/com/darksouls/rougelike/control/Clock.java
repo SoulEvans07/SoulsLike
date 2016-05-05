@@ -19,11 +19,22 @@ public class Clock {
     // only for animation
     public static void canvasTick(){
         if(GamePanel.getInstance().getCanvas().getGraphics() != null) {
-            /*try {
-                Thread.sleep(100);
+            try {
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
+            }
+            GamePanel.getInstance().getCanvas().paint(GamePanel.getInstance().getCanvas().getGraphics());
+        }
+    }
+
+    public static void animationTick(){
+        if(GamePanel.getInstance().getCanvas().getGraphics() != null) {
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             GamePanel.getInstance().getCanvas().paint(GamePanel.getInstance().getCanvas().getGraphics());
         }
     }

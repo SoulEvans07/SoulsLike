@@ -98,23 +98,6 @@ public class VPoint {
         return Math.sqrt(Math.pow(this.x - p.x(), 2) + Math.pow(this.y - p.y(), 2));
     }
 
-    /*
-    public int getDir(VPoint from, VPoint to){
-        int dir = Reference.STOP;
-        if(from.y() == to.y()) {
-            if (from.x() < to.x())
-                dir = Reference.RIGHT;
-            else if (from.x() > to.x())
-                dir = Reference.LEFT;
-        } else if(from.x() == to.x())
-            if(from.y() < to.y())
-                dir = Reference.UP;
-            else if(from.y() > to.y())
-                dir = Reference.DOWN;
-        return dir;
-    }
-    //*/
-
     @Override
     public String toString(){
         return "[" + x + ", " + y + "]";

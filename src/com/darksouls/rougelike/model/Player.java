@@ -1,6 +1,7 @@
 package com.darksouls.rougelike.model;
 
 import com.darksouls.rougelike.control.Clock;
+import com.darksouls.rougelike.references.Colors;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.LogHelper;
 import com.darksouls.rougelike.view.GamePanel;
@@ -13,7 +14,7 @@ public class Player extends Living{
     private static  Player instance;
 
     private Player(){
-        placeholder = new Color(147, 101, 250);
+        placeholder = Colors.player;
         health = maxHealth =  20;
         accuracy = 8; // max 9
         name = "Soul";
@@ -70,9 +71,9 @@ public class Player extends Living{
     }
 
     @Override
-    public boolean attack(VPoint dir){
-        boolean ret = super.attack(dir);
-        if(ret){
+    public int attack(VPoint dir){
+        int ret = super.attack(dir);
+        if(ret >= 0){
             Clock.canvasTick();
             Clock.tick();
         }
