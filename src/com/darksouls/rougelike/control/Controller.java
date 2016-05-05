@@ -6,7 +6,6 @@ import com.darksouls.rougelike.model.Tile;
 import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
-import com.darksouls.rougelike.utility.LogHelper;
 import com.darksouls.rougelike.view.GamePanel;
 
 import java.awt.event.KeyAdapter;

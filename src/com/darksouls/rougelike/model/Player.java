@@ -36,8 +36,6 @@ public class Player extends Living{
 
     private Inventory inventory;
 
-    private ViewMap viewed;
-
     private ArrayList<Living> seen;
     private ArrayList<Living> ignore;
 
@@ -180,7 +178,7 @@ public class Player extends Living{
 
             NodeList neighbours = new NodeList();
             for (Tile n : at.getTile().getNeighbors()){
-                if(this.getVisibilityLevel(n.pos) != Reference.TILE_HIDDEN && n.isTransparent()) {
+                if(this.getVisibilityLevel(n.pos) != Reference.TILE_HIDDEN && n.isTransparent() && !n.isObscured()) {
                     Node tmp = new Node(n, goal);
 
                     if (closed.contains(tmp)) {
