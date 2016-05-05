@@ -65,6 +65,7 @@ public class Player extends Living{
         boolean ret = super.step(dir);
         if(ret) {
             this.lookAround();
+            Clock.canvasTick();
             Clock.tick();
         }
         return ret;
@@ -74,6 +75,7 @@ public class Player extends Living{
     public boolean attack(VPoint dir){
         boolean ret = super.attack(dir);
         if(ret){
+            Clock.canvasTick();
             Clock.tick();
         }
 

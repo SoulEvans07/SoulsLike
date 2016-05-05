@@ -14,7 +14,6 @@ public class Clock {
         counter++;
         // tick game elements
         GamePanel.getInstance().tick();
-        canvasTick();
     }
 
     // only for animation
