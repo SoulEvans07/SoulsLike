@@ -37,7 +37,7 @@ public class Tile {
 
     public boolean stepOn(Living on){
         boolean step = false;
-        if(this.livingEntity == null) {
+        if(!this.isObscured()) {
             this.livingEntity = on;
             step = true;
         }
@@ -86,6 +86,11 @@ public class Tile {
         return transparent;
     }
 
+    public boolean isObscured(){
+        return this.livingEntity != null;
+    }
+
+
     public boolean isValid(){ // isValid place to step
         return true;
     }
@@ -107,7 +112,7 @@ public class Tile {
             if (entities != null && entities.size() != 0)
                 ret = entities.get(0).getColor();
 
-            if (visibility == Reference.TILE_VISIBLE && livingEntity != null)
+            if (visibility == Reference.TILE_VISIBLE && this.isObscured())
                 ret = livingEntity.getColor();
 
             if(visibility == Reference.TILE_SEEN)
@@ -115,7 +120,7 @@ public class Tile {
 
             // TODO: temporary; only for testing
             if(Config.DEBUG && visibility != Reference.TILE_VISIBLE) {
-                if (livingEntity != null)
+                if (this.isObscured())
                     ret = livingEntity.getColor().darker();
                 if (visibility == Reference.TILE_SEEN)
                     ret = ret.darker().darker();

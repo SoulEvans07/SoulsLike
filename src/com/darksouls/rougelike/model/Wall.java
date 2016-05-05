@@ -2,8 +2,6 @@ package com.darksouls.rougelike.model;
 
 import com.darksouls.rougelike.references.Colors;
 
-import java.awt.*;
-
 public class Wall extends Tile {
 
     public Wall(int x, int y){

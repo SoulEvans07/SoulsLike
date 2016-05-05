@@ -9,6 +9,7 @@ public abstract class Living extends Entity {
     private VPoint direction;
 
     protected ArrayList<Action> plan;
+    protected ViewMap viewed;
 
     protected int health;
     protected int maxHealth;      // HP from VIT
@@ -19,13 +20,21 @@ public abstract class Living extends Entity {
     public boolean step(VPoint dir){
         boolean ret = false;
         Tile neighbor = this.pos.getNeighbor(dir);
+
+        LogHelper.writeLn("step: " + dir.toString());
+        LogHelper.lift();
+
         if (neighbor != null) {
             if(neighbor.stepOn(this)) {
+                LogHelper.writeLn("step on");
                 this.pos.stepOff(this);
+                LogHelper.writeLn("step off");
                 this.pos = neighbor;
                 ret = true;
             }
         }
+
+        LogHelper.close();
 
         return ret;
     }

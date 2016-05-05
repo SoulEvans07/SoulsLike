@@ -8,8 +8,6 @@ import com.darksouls.rougelike.view.GamePanel;
 import java.util.ArrayList;
 
 public class Enemy extends Living{
-    private ViewMap viewed;
-
     private Tile target;
 
     public Enemy(){

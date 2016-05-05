@@ -4,6 +4,7 @@ import com.darksouls.rougelike.control.Controller;
 import com.darksouls.rougelike.model.DungeonLevel;
 import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Colors;
+import com.darksouls.rougelike.utility.LogHelper;
 
 import javax.swing.*;
 import java.awt.*;
