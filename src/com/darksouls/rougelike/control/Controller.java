@@ -63,8 +63,9 @@ public class Controller {
                             if (Player.getInstance().plan(tile)) {
                                 ArrayList<Action> plan = Player.getInstance().getPlan();
 
+                                int startHp = Player.getInstance().getHp();
                                 while (plan.size() > 0) {
-                                    if (!Player.getInstance().seeDanger()) {
+                                    if (!Player.getInstance().seeDanger() && startHp == Player.getInstance().getHp()) {
                                         Action move = plan.get(plan.size() - 1); // get last
                                         move.exec(Player.getInstance());
                                         //LogHelper.writeLn(move.toString());

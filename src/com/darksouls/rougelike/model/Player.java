@@ -73,7 +73,7 @@ public class Player extends Living{
     @Override
     public int attack(VPoint dir){
         int ret = super.attack(dir);
-        if(ret >= 0){
+        if(ret != -2){ // -2 means there is no enemy to attack
             Clock.canvasTick();
             Clock.tick();
         }
