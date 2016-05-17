@@ -1,5 +1,7 @@
 package com.darksouls.rougelike.references;
 
+import javax.print.DocFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 
 public class Reference {
@@ -50,8 +52,14 @@ public class Reference {
     public static final double ENEMY_COUNT = 20;
 
     //-------------ASSETS--------------
+    // Fonts
     public static final String FONTS_PATH = "/assets/fonts/";
     public static final String FONT_NAME = "Retro Computer";
+
+    // Maps
+    public static final String LVL_PATH = "/assets/levels/";
+    public static final String LVL_1 = "lvl1.txt";
+
 
     //---------UTILITY-DEFAULTS--------
     // GuiMagic related

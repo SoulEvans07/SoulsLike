@@ -4,7 +4,6 @@ import com.darksouls.rougelike.control.Controller;
 import com.darksouls.rougelike.model.DungeonLevel;
 import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Colors;
-import com.darksouls.rougelike.utility.LogHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +37,7 @@ public class GamePanel extends JPanel {
         this.setBackground(Colors.line);
         //game = new Game();
         dungeonLevel = new DungeonLevel();
-        dungeonLevel.loadMap();
+        dungeonLevel.initMap();
 
         setLayout(new BorderLayout());
         canvas = new GameCanvas(dungeonLevel);

@@ -6,6 +6,8 @@ import com.darksouls.rougelike.utility.GuiMagic;
 import com.darksouls.rougelike.utility.LogHelper;
 import com.darksouls.rougelike.view.GamePanel;
 
+import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,56 +26,87 @@ public class DungeonLevel {
 
     private VPoint fieldSize;
 
-    public void loadMap(){
+    private ArrayList<String> map;
+    private VPoint size;
+    public void loadMap() throws IOException {
+        ArrayList<String> temp = new ArrayList<>();
+        String line;
+
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+            InputStream is = this.getClass().getResourceAsStream(Reference.LVL_PATH + Reference.LVL_1);
+            InputStreamReader ir = new InputStreamReader(is);
+            br = new BufferedReader(ir);
+
+            while ((line = br.readLine()) != null) {
+                temp.add(new String(line));
+                LogHelper.error(line.length());
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) br.close();
+            if (fr != null) fr.close();
+        }
+
+        this.map = temp;
+        //LogHelper.inline("arenaLoaded src: " + fileName);
+        fieldSize = new VPoint(this.map.get(0).length() , this.map.size());
+        LogHelper.error(fieldSize.toString());
+    }
+
+    public void initMap(){
         Player.revive();
 
+        try {
+            this.loadMap();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         fields = new ArrayList<>();
-        fieldSize = new VPoint(33, 23);
-
-        // TODO: get map entrance
-        VPoint entrance = new VPoint(1, 1);
-        Random r = new Random();
-
         npcs = new ArrayList<>();
 
-        VPoint npc = new VPoint( 1 + Math.abs(r.nextInt()) % (fieldSize.x() - 2),
-                1 + Math.abs(r.nextInt()) % (fieldSize.y() - 2));
-
-        Tile tmp;
-
-        // random enemy
-        npcs.add(new Enemy());
-
+        for(int j = 0; j < fieldSize.y(); j++) {
+            for (int i = 0; i < fieldSize.x(); i++) {
+                if(map.get(j).charAt(i) == 'E')
+                    npcs.add(new Enemy());
+            }
+        }
+        Tile tmp = null;
+        int atEnemy = 0;
         for(int j = 0; j < fieldSize.y(); j++){
             for(int i = 0; i < fieldSize.x(); i++){
-                // Procedural map
-                if(i == 0 || i == fieldSize.x()-1 || j == 0 || j == fieldSize.y()-1)
-                    tmp = new Wall(i, j);
-                else {
-                    if (!(i == entrance.x() && j == entrance.y()) && r.nextInt(10) > 8)
+                switch (map.get(j).charAt(i)){
+                    case '#':
                         tmp = new Wall(i, j);
-                    else
+                        break;
+                    case '_':
                         tmp = new Tile(i, j);
+                        break;
+                    case 'P':
+                        tmp = new Tile(i, j);
+                        Player.getInstance().setPos(tmp);
+                        tmp.stepOn(Player.getInstance());
+                        break;
+                    case 'E':
+                        tmp = new Tile(i, j);
+                        npcs.get(atEnemy).setPos(tmp);
+                        tmp.stepOn(npcs.get(atEnemy));
+                        atEnemy++;
+                        break;
                 }
-                // Player placement
-                if(i == entrance.x() && j == entrance.y()) {
-                    Player.getInstance().setPos(tmp);
-                    tmp.stepOn(Player.getInstance());
+                if(tmp != null) {
+                    Player.getInstance().addToView(tmp.vect(), Reference.TILE_HIDDEN);
+                    for (int e = 0; e < npcs.size(); e++)
+                        npcs.get(e).addToView(tmp.vect(), Reference.TILE_HIDDEN);
+                    fields.add(tmp);
                 }
-
-
-                // random enemy placement
-                if(i == npc.x() && j == npc.y()){
-                    LogHelper.comment(npc.toString());
-                    npcs.get(0).setPos(tmp);
-                    tmp.stepOn(npcs.get(0));
-                }
-
-                // setting up Player view
-                Player.getInstance().addToView(tmp.vect(), Reference.TILE_HIDDEN);
-                npcs.get(0).addToView(tmp.vect(), Reference.TILE_HIDDEN);
-
-                fields.add(tmp);
             }
         }
 
