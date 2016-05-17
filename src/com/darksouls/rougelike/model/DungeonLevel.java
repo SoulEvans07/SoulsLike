@@ -42,7 +42,6 @@ public class DungeonLevel {
 
             while ((line = br.readLine()) != null) {
                 temp.add(new String(line));
-                LogHelper.error(line.length());
             }
 
         } catch (FileNotFoundException e) {
@@ -57,7 +56,6 @@ public class DungeonLevel {
         this.map = temp;
         //LogHelper.inline("arenaLoaded src: " + fileName);
         fieldSize = new VPoint(this.map.get(0).length() , this.map.size());
-        LogHelper.error(fieldSize.toString());
     }
 
     public void initMap(){
@@ -136,24 +134,24 @@ public class DungeonLevel {
             if(n.getHp() <= 0){
                 n.getPos().removeLiving();
                 npcs.remove(i);
-                continue;
-            }
+            } else {
+                if (n.plan()) {
+                    //LogHelper.writeLn("NPC plan");
+                    ArrayList<Action> plan = n.getPlan();
 
-            if(n.plan()){
-                //LogHelper.writeLn("NPC plan");
-                ArrayList<Action> plan = n.getPlan();
+                    Action move = plan.get(plan.size() - 1); // get only the last
+                    move.exec(n);
+                    //LogHelper.writeLn(move.toString());
+                    plan.remove(plan.size() - 1);
+                }
 
-                Action move = plan.get(plan.size() - 1); // get only the last
-                move.exec(n);
-                //LogHelper.writeLn(move.toString());
-                plan.remove(plan.size() - 1);
             }
+        }
 
-            if(Player.getInstance().getHp() <= 0){
-                Player.getInstance().getPos().removeLiving();
-                GamePanel.getInstance().getCanvas().repaint();
-                GamePanel.getInstance().gameOver();
-            }
+        if (Player.getInstance().getHp() <= 0) {
+            Player.getInstance().getPos().removeLiving();
+            GamePanel.getInstance().getCanvas().repaint();
+            GamePanel.getInstance().gameOver();
         }
     }
 

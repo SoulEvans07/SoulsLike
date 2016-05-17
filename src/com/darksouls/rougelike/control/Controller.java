@@ -90,52 +90,54 @@ public class Controller {
     public class KeyTrack extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            boolean validAction = false;
-            VPoint dir = new VPoint();
+            if (Player.getCurrInstance() != null && Player.getCurrInstance().getHp() > 0) {
+                boolean validAction = false;
+                VPoint dir = new VPoint();
 
-            switch (e.getKeyCode()){
-                case Reference.MOVE_UP:
-                    dir.set(0, -1);
-                    break;
-                case Reference.MOVE_RIGHT:
-                    dir.set(1, 0);
-                    break;
-                case Reference.MOVE_DOWN:
-                    dir.set(0, 1);
-                    break;
-                case Reference.MOVE_LEFT:
-                    dir.set(-1, 0);
-                    break;
-                case Reference.WAIT:
-                    // Wait is just a tick without action
-                    validAction = true;
-                    Clock.tick();
-                    break;
-            }
+                switch (e.getKeyCode()) {
+                    case Reference.MOVE_UP:
+                        dir.set(0, -1);
+                        break;
+                    case Reference.MOVE_RIGHT:
+                        dir.set(1, 0);
+                        break;
+                    case Reference.MOVE_DOWN:
+                        dir.set(0, 1);
+                        break;
+                    case Reference.MOVE_LEFT:
+                        dir.set(-1, 0);
+                        break;
+                    case Reference.WAIT:
+                        // Wait is just a tick without action
+                        validAction = true;
+                        Clock.tick();
+                        break;
+                }
 
-            int dmg = Player.getInstance().attack(dir);
-            if(dmg <= -2) {
-                validAction = Player.getInstance().step(dir);
-                if (validAction) {
-                    Player.getInstance().seeDanger(); // clears unseen npc from ignore list
+                int dmg = Player.getInstance().attack(dir);
+                if (dmg <= -2) {
+                    validAction = Player.getInstance().step(dir);
+                    if (validAction) {
+                        Player.getInstance().seeDanger(); // clears unseen npc from ignore list
+                        Clock.tick();
+                    }
+                } else if (dmg == -1) {
+                    // TODO : draw miss
+                    //LogHelper.error("miss");
+                    for (int i = 0; i < 10; i++) {
+                        GamePanel.getInstance().getCanvas().drawDMG("miss", Player.getInstance().getPos().mVect(), dir, i, Player.getInstance());
+                        Clock.animationTick();
+                    }
+                    Clock.tick();
+                } else if (dmg >= 0) {
+                    // TODO : draw dmg
+                    //LogHelper.error("dmg");
+                    for (int i = 0; i < 10; i++) {
+                        GamePanel.getInstance().getCanvas().drawDMG("" + dmg, Player.getInstance().getPos().mVect(), dir, i, Player.getInstance());
+                        Clock.animationTick();
+                    }
                     Clock.tick();
                 }
-            } else if(dmg == -1) {
-                // TODO : draw miss
-                //LogHelper.error("miss");
-                for(int i = 0; i < 10; i++){
-                    GamePanel.getInstance().getCanvas().drawDMG("miss", Player.getInstance().getPos().mVect(), dir, i, Player.getInstance());
-                    Clock.animationTick();
-                }
-                Clock.tick();
-            } else if(dmg >= 0) {
-                // TODO : draw dmg
-                //LogHelper.error("dmg");
-                for(int i = 0; i < 10; i++){
-                    GamePanel.getInstance().getCanvas().drawDMG("" + dmg, Player.getInstance().getPos().mVect(), dir, i, Player.getInstance());
-                    Clock.animationTick();
-                }
-                Clock.tick();
             }
         }
     }

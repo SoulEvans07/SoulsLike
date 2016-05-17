@@ -1,5 +1,6 @@
 package com.darksouls.rougelike.view;
 
+import com.darksouls.rougelike.control.Clock;
 import com.darksouls.rougelike.control.Controller;
 import com.darksouls.rougelike.model.DungeonLevel;
 import com.darksouls.rougelike.model.VPoint;

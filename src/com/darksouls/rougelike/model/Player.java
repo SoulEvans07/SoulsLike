@@ -25,11 +25,14 @@ public class Player extends Living{
     }
 
     public static Player getInstance(){
-        // TODO: Cant happen but throw error.
         if(instance == null) {
             instance = new Player();
         }
 
+        return instance;
+    }
+
+    public static Player getCurrInstance(){
         return instance;
     }
 

@@ -11,9 +11,9 @@ public class Clock {
     private static Timer timer;
 
     public static void tick() {
-        counter++;
-        // tick game elements
-        GamePanel.getInstance().tick();
+            counter++;
+            // tick game elements
+            GamePanel.getInstance().tick();
     }
 
     // only for animation

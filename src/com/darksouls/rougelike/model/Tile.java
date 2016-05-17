@@ -49,7 +49,7 @@ public class Tile {
     }
 
     public void removeLiving(){
-        if(livingEntity.getHp() <= 0) {
+        if(livingEntity != null && livingEntity.getHp() <= 0) {
             livingEntity = null;
         }
     }
