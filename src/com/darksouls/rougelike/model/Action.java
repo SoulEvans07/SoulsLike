@@ -24,14 +24,14 @@ public class Action {
                 // TODO : draw miss
                 //LogHelper.error("miss");
                 for(int i = 0; i < 10; i++){
-                    GamePanel.getInstance().getCanvas().drawDMG("miss", entity.getPos().mVect(), dir, i);
+                    GamePanel.getInstance().getCanvas().drawDMG("miss", entity.getPos().mVect(), dir, i, entity);
                     Clock.animationTick();
                 }
             } else if(dmg >= 0) {
                 // TODO : draw dmg
                 //LogHelper.error("dmg");
                 for(int i = 0; i < 10; i++){
-                    GamePanel.getInstance().getCanvas().drawDMG("" + dmg, entity.getPos().mVect(), dir, i);
+                    GamePanel.getInstance().getCanvas().drawDMG("" + dmg, entity.getPos().mVect(), dir, i, entity);
                     Clock.animationTick();
                 }
             }

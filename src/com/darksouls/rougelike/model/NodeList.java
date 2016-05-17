@@ -35,9 +35,11 @@ public class NodeList {
     }
 
     public int indexOf(Node node){
-        for (int i = 0; i < nodes.size(); i++) {
-            if (nodes.get(i).getTile().vect().equals(node.getTile().vect())) {
-                return i;
+        if(this.contains(node)) {
+            for (int i = 0; i < nodes.size(); i++) {
+                if (nodes.get(i).getTile().vect().equals(node.getTile().vect())) {
+                    return i;
+                }
             }
         }
         return -1;

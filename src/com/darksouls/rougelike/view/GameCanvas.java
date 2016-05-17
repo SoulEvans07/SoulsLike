@@ -3,6 +3,7 @@ package com.darksouls.rougelike.view;
 import com.darksouls.rougelike.model.*;
 import com.darksouls.rougelike.references.Colors;
 import com.darksouls.rougelike.references.Config;
+import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
 
 import java.awt.*;
@@ -129,19 +130,24 @@ public class GameCanvas extends Canvas {
             }
     }
 
-    private static Font monoFont = new Font("Monospaced", Font.BOLD , 16);
+    private static Font inline = new Font(Reference.FONT_NAME, Font.BOLD , 15);
+    private static Font outline = new Font(Reference.FONT_NAME, Font.BOLD , 16);
 
-    public void drawDMG(String dmg, VPoint from, VPoint dir, int delta){
-        bufferGraphics.setColor(new Color(255, 0, 38));
-        VPoint up = new VPoint(0, Config.FIELD_SIZE / 8 - delta);
+    public void drawDMG(String dmg, VPoint from, VPoint dir, int delta, Living src){
+        if (GamePanel.getInstance().getCanvas().getGraphics() != null) {
+            VPoint up = new VPoint(0, Config.FIELD_SIZE / 8 - delta);
+            if (src == Player.getInstance())
+                bufferGraphics.setColor(new Color(255, 0, 38));
+            else
+                bufferGraphics.setColor(new Color(255, 186, 93));
 
-        bufferGraphics.setFont(monoFont);
-        FontMetrics fm = bufferGraphics.getFontMetrics();
-        int w = fm.stringWidth(dmg);
-        int h = fm.getAscent();
-        bufferGraphics.drawString(dmg, from.getX() + dir.getX()*Config.FIELD_SIZE + up.getX() - (w / 2), from.getY() + dir.getY()*Config.FIELD_SIZE + up.getY() + (h / 4));
-        if (GamePanel.getInstance().getCanvas().getGraphics() != null)
+            bufferGraphics.setFont(inline);
+            FontMetrics fm = bufferGraphics.getFontMetrics();
+            int w = fm.stringWidth(dmg);
+            int h = fm.getAscent();
+            bufferGraphics.drawString(dmg, from.getX() + dir.getX() * Config.FIELD_SIZE + up.getX() - (w / 2), from.getY() + dir.getY() * Config.FIELD_SIZE + up.getY() + (h / 4));
             GamePanel.getInstance().getCanvas().getGraphics().drawImage(offscreen, 0, 0, this);
+        }
     }
 
     private void drawHP(VPoint pos, int hp, int maxHp) {

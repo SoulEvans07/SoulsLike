@@ -4,11 +4,14 @@ import com.darksouls.rougelike.model.VPoint;
 import com.darksouls.rougelike.references.Config;
 import com.darksouls.rougelike.references.Reference;
 import com.darksouls.rougelike.utility.GuiMagic;
+import com.darksouls.rougelike.utility.LogHelper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.net.URISyntaxException;
 
 // Singleton
 public class GUI extends JFrame{
@@ -41,6 +44,12 @@ public class GUI extends JFrame{
 
     private void initFrame(){
         GuiMagic.setWindowsLook();
+        try {
+            GuiMagic.registerFont(this.getClass().getResource(Reference.FONTS_PATH + Reference.FONT_NAME + ".ttf").toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
         this.setLayout(new BorderLayout());
         this.setTitle(Reference.PROJ_NAME + (Config.DEBUG ? " - " + Reference.PROJ_VER : ""));
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -94,7 +103,7 @@ public class GUI extends JFrame{
     private class exitApp extends WindowAdapter {
         @Override
         public void windowClosing(WindowEvent e){
-            requestFocus(false); // letiltjuk, hogy ESC-re ne hozza be a pausePanelt, amíg fent van az OptionPane
+            requestFocus(false); // letiltjuk, hogy ESC-re ne hozza be a pausePanelt, amï¿½g fent van az OptionPane
             // TODO: LATER ENABLE IT!!!
             /*int i = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?",
                     "Confirm Exit", JOptionPane.YES_NO_OPTION);
@@ -102,7 +111,7 @@ public class GUI extends JFrame{
             if(true){
                 GUI.exitGame();
             }
-            requestFocus(); // visszaadjuk, ha nem léptünk ki
+            requestFocus(); // visszaadjuk, ha nem lï¿½ptï¿½nk ki
         }
     }
 }

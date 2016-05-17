@@ -116,23 +116,26 @@ public class Controller {
             int dmg = Player.getInstance().attack(dir);
             if(dmg <= -2) {
                 validAction = Player.getInstance().step(dir);
-                if (validAction)
+                if (validAction) {
                     Player.getInstance().seeDanger(); // clears unseen npc from ignore list
-                //    Clock.tick();
+                    Clock.tick();
+                }
             } else if(dmg == -1) {
                 // TODO : draw miss
                 //LogHelper.error("miss");
                 for(int i = 0; i < 10; i++){
-                    GamePanel.getInstance().getCanvas().drawDMG("miss", Player.getInstance().getPos().mVect(), dir, i);
+                    GamePanel.getInstance().getCanvas().drawDMG("miss", Player.getInstance().getPos().mVect(), dir, i, Player.getInstance());
                     Clock.animationTick();
                 }
+                Clock.tick();
             } else if(dmg >= 0) {
                 // TODO : draw dmg
                 //LogHelper.error("dmg");
                 for(int i = 0; i < 10; i++){
-                    GamePanel.getInstance().getCanvas().drawDMG("" + dmg, Player.getInstance().getPos().mVect(), dir, i);
+                    GamePanel.getInstance().getCanvas().drawDMG("" + dmg, Player.getInstance().getPos().mVect(), dir, i, Player.getInstance());
                     Clock.animationTick();
                 }
+                Clock.tick();
             }
         }
     }

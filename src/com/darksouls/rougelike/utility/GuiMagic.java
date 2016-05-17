@@ -8,6 +8,9 @@ import com.darksouls.rougelike.references.Reference;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 
 public class GuiMagic {
     public static final Border frameBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
@@ -56,6 +59,17 @@ public class GuiMagic {
     public static void setWindowsLook(){
         if (System.getProperty("os.name").startsWith("Windows")) {
             setWindowTheme(WIN_LOOKS);
+        }
+    }
+
+    public static void registerFont(URI fontPath){
+        try {
+            GraphicsEnvironment ge =
+                    GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(fontPath)));
+        } catch (IOException | FontFormatException e) {
+            //Handle exception
+            LogHelper.error("wrong path");
         }
     }
 }

@@ -65,7 +65,6 @@ public class Player extends Living{
         if(ret) {
             this.lookAround();
             Clock.canvasTick();
-            Clock.tick();
         }
         return ret;
     }
@@ -75,7 +74,6 @@ public class Player extends Living{
         int ret = super.attack(dir);
         if(ret != -2){ // -2 means there is no enemy to attack
             Clock.canvasTick();
-            Clock.tick();
         }
 
         return ret;
@@ -177,6 +175,7 @@ public class Player extends Living{
             open.remove(at);
             closed.add(at);
 
+            int ne = 0;
             NodeList neighbours = new NodeList();
             for (Tile n : at.getTile().getNeighbors()){
                 if(this.getVisibilityLevel(n.pos) != Reference.TILE_HIDDEN && n.isTransparent() && !n.isObscured()) {
@@ -190,21 +189,32 @@ public class Player extends Living{
                         tmp.setSteps(GamePanel.getInstance().getDungeonLevel().getInfinity());
 
                     neighbours.add(tmp);
+                    ne++;
                 }
             }
+            LogHelper.comment("neighb: " + ne);
 
+            ne = 0;
             for(Node n : neighbours.getList()){
                 boolean temp = (!open.contains(n) && !closed.contains(n)) ||  (at.getDist() + 1 < n.getSteps());
                 if(temp){
+
+                    LogHelper.error("-open " + n.getTile().toString() + " " + n.getF() + " c: " + closed.size());
                     open.remove(n);
+                    closed.remove(n);
 
                     n.setSteps(at.getSteps() + 1);
+                    if(n.getF() > GamePanel.getInstance().getDungeonLevel().getInfinity()) {
+                        LogHelper.error("false");
+                        return false;
+                    }
                     n.setParent(at);
-
                     open.add(n);
-                    closed.remove(n);
+                    LogHelper.error("+open " + n.getTile().toString() + " " + n.getF() + " c: " + closed.size());
+                    ne++;
                 }
             }
+            LogHelper.comment("+ open: " + ne);
         }
 
         LogHelper.error("No Path");

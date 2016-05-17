@@ -8,7 +8,7 @@ public class Reference {
     public static final String PROJ_VER = "vDEBUG";
 
     public static final String START_DATE = "Day01 2016.04.07";
-    public static final String TIME_STAMP = "Day09 2016.05.07";
+    public static final String TIME_STAMP = "Day10 2016.05.17";
 
     //----------GAME-DEFAULTS----------
     // Controls
@@ -48,6 +48,10 @@ public class Reference {
     //--------TEMPORARY-VARABLES-------
     public static final double WALL_RAND = 0.8;
     public static final double ENEMY_COUNT = 20;
+
+    //-------------ASSETS--------------
+    public static final String FONTS_PATH = "/assets/fonts/";
+    public static final String FONT_NAME = "Retro Computer";
 
     //---------UTILITY-DEFAULTS--------
     // GuiMagic related

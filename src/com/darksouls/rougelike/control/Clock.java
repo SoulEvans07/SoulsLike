@@ -20,7 +20,7 @@ public class Clock {
     public static void canvasTick(){
         if(GamePanel.getInstance().getCanvas().getGraphics() != null) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(70);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
