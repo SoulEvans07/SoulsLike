@@ -130,8 +130,8 @@ public class GameCanvas extends Canvas {
             }
     }
 
-    private static Font inline = new Font(Reference.FONT_NAME, Font.BOLD , 15);
-    private static Font outline = new Font(Reference.FONT_NAME, Font.BOLD , 16);
+    private static Font inline = new Font("Monospaced", Font.BOLD , 15);
+    //private static Font outline = new Font(Reference.FONT_NAME, Font.BOLD , 16);
 
     public void drawDMG(String dmg, VPoint from, VPoint dir, int delta, Living src){
         if (GamePanel.getInstance().getCanvas().getGraphics() != null) {

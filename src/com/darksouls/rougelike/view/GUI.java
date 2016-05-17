@@ -39,16 +39,13 @@ public class GUI extends JFrame{
         gui.setVisible(true);
     }
 
-
-
-
     private void initFrame(){
         GuiMagic.setWindowsLook();
-        try {
+        /*try {
             GuiMagic.registerFont(this.getClass().getResource(Reference.FONTS_PATH + Reference.FONT_NAME + ".ttf").toURI());
         } catch (URISyntaxException e) {
             e.printStackTrace();
-        }
+        }*/
 
         this.setLayout(new BorderLayout());
         this.setTitle(Reference.PROJ_NAME + (Config.DEBUG ? " - " + Reference.PROJ_VER : ""));
