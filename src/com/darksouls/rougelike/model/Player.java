@@ -120,6 +120,11 @@ public class Player extends Living{
         return tiles;
     }
 
+    public void plan(Action act){
+        plan = new ArrayList<>();
+        plan.add(act);
+    }
+
     // A* algorithm
     public boolean plan(Tile goal){
         Node start = new Node(pos, goal);
@@ -169,8 +174,10 @@ public class Player extends Living{
                         type = Reference.MOVE_ACT;
                 }
 
-                if(plan.size() == 0)
+                if(plan.size() == 0) {
+                    LogHelper.comment("0 plan");
                     return false;
+                }
 
                 return true;
             }
@@ -195,14 +202,14 @@ public class Player extends Living{
                     ne++;
                 }
             }
-            LogHelper.comment("neighb: " + ne);
 
+            //LogHelper.comment("neighb: " + ne);
             ne = 0;
             for(Node n : neighbours.getList()){
                 boolean temp = (!open.contains(n) && !closed.contains(n)) ||  (at.getDist() + 1 < n.getSteps());
                 if(temp){
 
-                    LogHelper.error("-open " + n.getTile().toString() + " " + n.getF() + " c: " + closed.size());
+                    //LogHelper.error("-open " + n.getTile().toString() + " " + n.getF() + " c: " + closed.size());
                     open.remove(n);
                     closed.remove(n);
 
@@ -213,11 +220,11 @@ public class Player extends Living{
                     }
                     n.setParent(at);
                     open.add(n);
-                    LogHelper.error("+open " + n.getTile().toString() + " " + n.getF() + " c: " + closed.size());
+                    //LogHelper.error("+open " + n.getTile().toString() + " " + n.getF() + " c: " + closed.size());
                     ne++;
                 }
             }
-            LogHelper.comment("+ open: " + ne);
+            //LogHelper.comment("+ open: " + ne);
         }
 
         LogHelper.error("No Path");
@@ -245,6 +252,20 @@ public class Player extends Living{
                         viewed.set(tmp, Reference.TILE_VISIBLE);
                     }
                 }
+        }
+    }
+
+    public void execPlan(){
+        int startHp = health;
+        while (plan.size() > 0) {
+            if (!seeDanger() && startHp == health) {
+                Action move = plan.get(plan.size() - 1); // get last
+                move.exec(this);
+                //LogHelper.writeLn(move.toString());
+                plan.remove(plan.size() - 1);
+                Clock.tick();
+            } else
+                plan.clear(); // drop plan if danger seen
         }
     }
 

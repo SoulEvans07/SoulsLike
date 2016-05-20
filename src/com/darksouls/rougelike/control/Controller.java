@@ -59,9 +59,10 @@ public class Controller {
                 if (field != null) {
                     if(Player.getInstance().getVisibilityLevel(field) != Reference.TILE_HIDDEN) {
                         tile = GamePanel.getInstance().getDungeonLevel().getTile(field.getX(), field.getY());
+
                         if (tile != null && GamePanel.getInstance().getDungeonLevel().getTile(field).isValid()) {
                             if (Player.getInstance().plan(tile)) {
-                                ArrayList<Action> plan = Player.getInstance().getPlan();
+                                /*ArrayList<Action> plan = Player.getInstance().getPlan();
 
                                 int startHp = Player.getInstance().getHp();
                                 while (plan.size() > 0) {
@@ -70,9 +71,12 @@ public class Controller {
                                         move.exec(Player.getInstance());
                                         //LogHelper.writeLn(move.toString());
                                         plan.remove(plan.size() - 1);
+                                        Clock.tick();
                                     } else
                                         plan.clear(); // drop plan if danger seen
-                                }
+                                }*/
+
+                                Player.getInstance().execPlan();
                             }
                         }
                     }
@@ -89,7 +93,7 @@ public class Controller {
 
     public class KeyTrack extends KeyAdapter {
         @Override
-        public void keyReleased(KeyEvent e) {
+        public void keyPressed(KeyEvent e) {
             if (Player.getCurrInstance() != null && Player.getCurrInstance().getHp() > 0) {
                 boolean validAction = false;
                 VPoint dir = new VPoint();
@@ -114,7 +118,16 @@ public class Controller {
                         break;
                 }
 
-                int dmg = Player.getInstance().attack(dir);
+                Tile target = Player.getInstance().getPos().getNeighbor(dir);
+                if(target != null) {
+                    if (target.getLiving() != null) {
+                        Player.getInstance().plan(new Action(Reference.ATTACK_ACT, dir));
+                    } else {
+                        Player.getInstance().plan(new Action(Reference.MOVE_ACT, dir));
+                    }
+                    Player.getInstance().execPlan();
+                }
+                /*int dmg = Player.getInstance().attack(dir);
                 if (dmg <= -2) {
                     validAction = Player.getInstance().step(dir);
                     if (validAction) {
@@ -135,7 +148,7 @@ public class Controller {
                         Clock.animationTick();
                     }
                     Clock.tick();
-                }
+                }*/
             }
         }
     }
