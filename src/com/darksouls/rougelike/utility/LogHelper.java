@@ -63,7 +63,7 @@ public class LogHelper {
 
     public static void error(Object error){
         String raw = String.valueOf(error);
-        String tag = "[ERROR]";
+        String tag = "[ERROR] ";
         tag = tag.concat(paragrapher(tag.length()));
         log(tag + raw + '\n');
     }

@@ -75,7 +75,6 @@ public class Controller {
                                     } else
                                         plan.clear(); // drop plan if danger seen
                                 }*/
-
                                 Player.getInstance().execPlan();
                             }
                         }

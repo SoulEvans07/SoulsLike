@@ -188,15 +188,18 @@ public class Player extends Living{
             int ne = 0;
             NodeList neighbours = new NodeList();
             for (Tile n : at.getTile().getNeighbors()){
-                if(this.getVisibilityLevel(n.pos) != Reference.TILE_HIDDEN && n.isTransparent() && !n.isObscured()) {
+                if(this.getVisibilityLevel(n.pos) != Reference.TILE_HIDDEN && n.isTransparent() &&
+                        (n.pos.equals(goal.pos) || !n.isObscured())) {
                     Node tmp = new Node(n, goal);
 
-                    if (closed.contains(tmp)) {
-                        tmp.setSteps(closed.get(tmp.getTile().vect()).getSteps());
-                    } else if (open.contains(tmp)) {
-                        tmp.setSteps(open.get(tmp.getTile().vect()).getSteps());
-                    } else
+                    if (closed.contains(n.pos)) {
+                        tmp = closed.get(tmp.getTile().vect());
+                    } else if (open.contains(n.pos)) {
+                        tmp = open.get(tmp.getTile().vect());
+                    } else{
+                        tmp = new Node(n, goal);
                         tmp.setSteps(GamePanel.getInstance().getDungeonLevel().getInfinity());
+                    }
 
                     neighbours.add(tmp);
                     ne++;
@@ -206,20 +209,24 @@ public class Player extends Living{
             //LogHelper.comment("neighb: " + ne);
             ne = 0;
             for(Node n : neighbours.getList()){
-                boolean temp = (!open.contains(n) && !closed.contains(n)) ||  (at.getDist() + 1 < n.getSteps());
+                boolean temp = !closed.contains(n) && (!open.contains(n) ||  at.getSteps() + 1 < n.getSteps());
                 if(temp){
-
                     //LogHelper.error("-open " + n.getTile().toString() + " " + n.getF() + " c: " + closed.size());
                     open.remove(n);
                     closed.remove(n);
 
-                    n.setSteps(at.getSteps() + 1);
+                    if(at.getSteps() + 1 < n.getSteps())
+                        n.setSteps(at.getSteps() + 1);
+
                     if(n.getF() > GamePanel.getInstance().getDungeonLevel().getInfinity()) {
-                        LogHelper.error("false");
+                        LogHelper.error("A* failed, but saved");
                         return false;
                     }
-                    n.setParent(at);
-                    open.add(n);
+
+                    if(!open.contains(n)) {
+                        n.setParent(at);
+                        open.add(n);
+                    }
                     //LogHelper.error("+open " + n.getTile().toString() + " " + n.getF() + " c: " + closed.size());
                     ne++;
                 }
@@ -227,7 +234,7 @@ public class Player extends Living{
             //LogHelper.comment("+ open: " + ne);
         }
 
-        LogHelper.error("No Path");
+        LogHelper.comment("No Path");
         return false;
     }
 
