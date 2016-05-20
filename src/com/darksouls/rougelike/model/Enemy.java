@@ -12,7 +12,7 @@ public class Enemy extends Living{
 
     public Enemy(){
         health = maxHealth =  10;
-        accuracy = 7;
+        accuracy = 6;
         placeholder = Colors.enemy;
     }
 
@@ -168,7 +168,7 @@ public class Enemy extends Living{
 
     @Override
     public Damage getDmg() {
-        return new Damage(2, Reference.PHYS_DMG, accuracy);
+        return new Damage(1, Reference.PHYS_DMG, accuracy);
     }
 
     @Override

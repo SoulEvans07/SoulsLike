@@ -118,7 +118,7 @@ public class Controller {
                 }
 
                 Tile target = Player.getInstance().getPos().getNeighbor(dir);
-                if(target != null) {
+                if(target != null && target.isTransparent()) {
                     if (target.getLiving() != null) {
                         Player.getInstance().plan(new Action(Reference.ATTACK_ACT, dir));
                     } else {
