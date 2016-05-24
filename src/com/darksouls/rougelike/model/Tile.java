@@ -120,12 +120,18 @@ public class Tile {
 
             // TODO: temporary; only for testing
             if(Config.DEBUG && visibility != Reference.TILE_VISIBLE) {
-                if (this.isObscured())
-                    ret = livingEntity.getColor().darker();
-                if (visibility == Reference.TILE_SEEN)
-                    ret = ret.darker().darker();
-                if (visibility == Reference.TILE_HIDDEN)
-                    ret = ret.darker().darker().darker().darker().darker().darker().darker();
+                if (this.isObscured()) {
+                    ret = livingEntity.getColor();
+                    if (visibility == Reference.TILE_SEEN)
+                        ret = ret.darker().darker();
+                    if (visibility == Reference.TILE_HIDDEN)
+                        ret = ret.darker().darker().darker();
+                } else {
+                    if (visibility == Reference.TILE_SEEN)
+                        ret = ret.darker().darker();
+                    if (visibility == Reference.TILE_HIDDEN)
+                        ret = ret.darker().darker().darker().darker().darker().darker().darker();
+                }
             }
         }
 
