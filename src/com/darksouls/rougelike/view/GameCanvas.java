@@ -158,7 +158,8 @@ public class GameCanvas extends Canvas {
         VPoint start = pos.multiply(Config.FIELD_SIZE)
                 .addY(-Config.FIELD_SIZE / 4);
 
-        bufferGraphics.setColor(new Color(164, 0, 0));
+        //bufferGraphics.setColor(new Color(164, 0, 0));
+        bufferGraphics.setColor(new Color(255, 0, 0));
         bufferGraphics.fillRect(start.getX(), start.getY(), max, Config.FIELD_SIZE / 8);
         //bufferGraphics.setColor(new Color(255, 0, 0));
         bufferGraphics.setColor(new Color(55, 244, 48));
