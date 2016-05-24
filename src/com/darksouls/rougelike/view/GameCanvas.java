@@ -137,9 +137,9 @@ public class GameCanvas extends Canvas {
         if (GamePanel.getInstance().getCanvas().getGraphics() != null) {
             VPoint up = new VPoint(0, Config.FIELD_SIZE / 8 - delta);
             if (src == Player.getInstance())
-                bufferGraphics.setColor(new Color(255, 0, 38));
+                bufferGraphics.setColor(Colors.enemyDMG);
             else
-                bufferGraphics.setColor(new Color(255, 186, 93));
+                bufferGraphics.setColor(Colors.playerDMG);
 
             bufferGraphics.setFont(inline);
             FontMetrics fm = bufferGraphics.getFontMetrics();
