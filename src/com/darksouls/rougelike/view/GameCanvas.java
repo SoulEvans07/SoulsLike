@@ -100,6 +100,7 @@ public class GameCanvas extends Canvas {
             }
 
             this.drawHUD();
+            this.drawParticle();
 
             if (g != null)
                 g.drawImage(offscreen, 0, 0, this);
@@ -113,21 +114,30 @@ public class GameCanvas extends Canvas {
         }
     }
 
-    private void drawHUD() {
-        bufferGraphics.setColor(new Color(164, 0, 0));
-        bufferGraphics.fillRect(0, 0, Player.getInstance().getMaxHp() * 10, Config.FIELD_SIZE / 4);
-        bufferGraphics.setColor(new Color(255, 0, 0));
-        bufferGraphics.fillRect(0, 0, Player.getInstance().getHp() * 10, Config.FIELD_SIZE / 4);
-
+    private void drawParticle(){
         if (Player.getInstance().getSeenPos() != null && Player.getInstance().getSeenPos().size() > 0)
             for (VPoint vp : Player.getInstance().getSeenPos()) {
                 if(vp != null) {
                     Tile tmp = GamePanel.getInstance().getDungeonLevel().getTile(vp);
                     if (tmp !=null && tmp.getLiving() != null && tmp.getLiving() != Player.getInstance() &&
-                    tmp.getLiving().getHp() != tmp.getLiving().getMaxHp())
-                    this.drawHP(tmp.vect(), tmp.getLiving().getHp(), tmp.getLiving().getMaxHp());
+                            tmp.getLiving().getHp() != tmp.getLiving().getMaxHp())
+                        this.drawHP(tmp.vect(), tmp.getLiving().getHp(), tmp.getLiving().getMaxHp());
                 }
             }
+    }
+
+    private void drawHUD() {
+        // Health bar
+        bufferGraphics.setColor(new Color(164, 0, 0));
+        bufferGraphics.fillRect(0, 0, Player.getInstance().getMaxHp() * 10, Config.FIELD_SIZE / 4);
+        bufferGraphics.setColor(new Color(255, 0, 0));
+        bufferGraphics.fillRect(0, 0, Player.getInstance().getHp() * 10, Config.FIELD_SIZE / 4);
+
+        // Stamina bar
+        bufferGraphics.setColor(new Color(151, 164, 0));
+        bufferGraphics.fillRect(0, Config.FIELD_SIZE / 4, Player.getInstance().getMaxStamina() * 10, Config.FIELD_SIZE / 4);
+        bufferGraphics.setColor(new Color(15, 152, 53));
+        bufferGraphics.fillRect(0, Config.FIELD_SIZE / 4, Player.getInstance().getStamina() * 10, Config.FIELD_SIZE / 4);
     }
 
     private static Font inline = new Font("Monospaced", Font.BOLD , 15);

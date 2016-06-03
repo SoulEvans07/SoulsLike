@@ -15,9 +15,15 @@ public class Player extends Living{
 
     private Player(){
         placeholder = Colors.player;
-        health = maxHealth =  20;
-        accuracy = 8; // max 9
         name = "Soul";
+
+        accuracy = 8; // max 9
+
+        vitality = 10;
+        health =  this.getMaxHp();
+
+        endurance = 5;
+        stamina = this.getMaxStamina();
     }
 
     public static void revive(){
@@ -65,7 +71,8 @@ public class Player extends Living{
     @Override
     public boolean step(VPoint dir){
         boolean ret = super.step(dir);
-        if(ret) {
+        if(ret) {   // step successful
+            this.setStamina(stamina + 1);
             this.lookAround();
             Clock.canvasTick();
         }
@@ -74,9 +81,20 @@ public class Player extends Living{
 
     @Override
     public int attack(VPoint dir){
-        int ret = super.attack(dir);
-        if(ret != -2){ // -2 means there is no enemy to attack
-            Clock.canvasTick();
+        int ret = -2;
+
+        Tile target = this.pos.getNeighbor(dir);
+        if(target != null && target.getLiving() != null ){
+            if(this.getStamina() > 0) {
+                if (target.getLiving().gotHit(this.getDmg())) {
+                    ret = this.getDmg().getValue();
+                    this.setStamina(stamina - 1);
+                } else {
+                    ret = -1;
+                    this.setStamina(stamina - 2);
+                }
+                Clock.canvasTick();
+            }
         }
 
         return ret;
@@ -313,7 +331,26 @@ public class Player extends Living{
     int poisonRes;
     int curseRes;
 
+    @Override
+    public int getMaxHp() {
+        return vitality * 2;
+    }
 
+    public int getStamina(){
+        return stamina;
+    }
+
+    public int getMaxStamina(){
+        return endurance;
+    }
+
+    private void setStamina(int value){
+        stamina = value;
+        if(stamina < 0)
+            stamina = 0;
+        if(stamina > this.getMaxStamina())
+            stamina = this.getMaxStamina();
+    }
 
     @Override
     public String toString(){
