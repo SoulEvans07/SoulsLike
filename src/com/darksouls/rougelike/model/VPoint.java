@@ -20,6 +20,10 @@ public class VPoint {
         this.y = py;
     }
 
+    public VPoint(int px, int py){
+        this((double)px, (double)py);
+    }
+
     public VPoint(VPoint p){
         this(p.x(), p.y());
     }

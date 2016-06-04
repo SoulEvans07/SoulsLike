@@ -17,6 +17,10 @@ public class GameCanvas extends Canvas {
     private int lineWidth;
     private int tileSize;
 
+    private VPoint imgOffset;
+    private VPoint hudOffset;
+    private VPoint imgSize;
+
     private Image offscreen;
     private Graphics bufferGraphics;
 
@@ -24,6 +28,9 @@ public class GameCanvas extends Canvas {
 
     public GameCanvas(DungeonLevel l) {
         super();
+
+        imgOffset = new VPoint(0, Config.FIELD_SIZE / 2);
+        hudOffset = new VPoint(0, 0);
 
         level = l;
 
@@ -34,7 +41,8 @@ public class GameCanvas extends Canvas {
         cols = (int) level.getLevelSize().x();
         rows = (int) level.getLevelSize().y();
 
-        offscreen = createImage((int) Math.ceil(cols * fieldSize), (int) Math.ceil(rows * fieldSize));
+        imgSize = new VPoint((int) Math.ceil(cols * fieldSize), (int) Math.ceil(rows * fieldSize) + Config.FIELD_SIZE / 2);
+        offscreen = createImage((int) Math.ceil(cols * fieldSize), (int) Math.ceil(rows * fieldSize) + Config.FIELD_SIZE / 2);
         if (offscreen != null)
             bufferGraphics = offscreen.getGraphics();
 
@@ -68,8 +76,10 @@ public class GameCanvas extends Canvas {
 
     private void drawLevel(Graphics2D g) {
         if (bufferGraphics != null) {
-            bufferGraphics.clearRect(0, 0, (int) Math.ceil(cols * Config.FIELD_SIZE),
-                    (int) Math.ceil(rows * Config.FIELD_SIZE));
+            //bufferGraphics.clearRect(0, 0, (int) Math.ceil(cols * Config.FIELD_SIZE), (int) Math.ceil(rows * Config.FIELD_SIZE));
+            bufferGraphics.setColor(Color.WHITE);
+            bufferGraphics.clearRect(0, 0, imgSize.getX(), imgSize.getY());
+            bufferGraphics.fillRect(0, 0, imgSize.getX(), imgSize.getY());
             bufferGraphics.setColor(Colors.line);
 
             VPoint temp = new VPoint();
@@ -85,19 +95,19 @@ public class GameCanvas extends Canvas {
                     bufferGraphics.setColor(c);
                     //bufferGraphics.fillRect((int) Math.floor(x * fieldSize), (int) Math.floor(y * fieldSize),
                     //        (int) Math.ceil(fieldSize), (int) Math.ceil(fieldSize));
-                    bufferGraphics.fillRect(x * Config.FIELD_SIZE, y * Config.FIELD_SIZE,
+                    bufferGraphics.fillRect(x * Config.FIELD_SIZE + imgOffset.getX(), y * Config.FIELD_SIZE + imgOffset.getY(),
                             Config.FIELD_SIZE, Config.FIELD_SIZE);
                 }
             }
 
-            // TODO: Temporary ruler line
+            /*// TODO: Temporary ruler line
             if (Config.DEBUG && point != null) {
                 bufferGraphics.setColor(Colors.spawnCell);
                 point = GuiMagic.getFieldCoord(point);
                 bufferGraphics.drawLine((int) point.x(), (int) point.y(),
                         (int) Player.getInstance().getPos().mVect().x(),
                         (int) Player.getInstance().getPos().mVect().y());
-            }
+            }*/
 
             this.drawHUD();
             this.drawParticle();
@@ -106,7 +116,7 @@ public class GameCanvas extends Canvas {
                 g.drawImage(offscreen, 0, 0, this);
         } else {
             offscreen = createImage((int) Math.ceil(cols * Config.FIELD_SIZE),
-                    (int) Math.ceil(rows * Config.FIELD_SIZE));
+                    (int) Math.ceil(rows * Config.FIELD_SIZE) + Config.FIELD_SIZE / 2);
             if (offscreen != null) {
                 bufferGraphics = offscreen.getGraphics();
                 repaint();
@@ -129,15 +139,19 @@ public class GameCanvas extends Canvas {
     private void drawHUD() {
         // Health bar
         bufferGraphics.setColor(new Color(164, 0, 0));
-        bufferGraphics.fillRect(0, 0, Player.getInstance().getMaxHp() * 10, Config.FIELD_SIZE / 4);
+        bufferGraphics.fillRect(0 + hudOffset.getX(), 0 + hudOffset.getY(),
+                Player.getInstance().getMaxHp() * 10, Config.FIELD_SIZE / 4);
         bufferGraphics.setColor(new Color(255, 0, 0));
-        bufferGraphics.fillRect(0, 0, Player.getInstance().getHp() * 10, Config.FIELD_SIZE / 4);
+        bufferGraphics.fillRect(0 + hudOffset.getX(), 0 + hudOffset.getY(),
+                Player.getInstance().getHp() * 10, Config.FIELD_SIZE / 4);
 
         // Stamina bar
         bufferGraphics.setColor(new Color(151, 164, 0));
-        bufferGraphics.fillRect(0, Config.FIELD_SIZE / 4, Player.getInstance().getMaxStamina() * 10, Config.FIELD_SIZE / 4);
+        bufferGraphics.fillRect(0 + hudOffset.getX(), Config.FIELD_SIZE / 4 + hudOffset.getY(),
+                Player.getInstance().getMaxStamina() * 10, Config.FIELD_SIZE / 4);
         bufferGraphics.setColor(new Color(15, 152, 53));
-        bufferGraphics.fillRect(0, Config.FIELD_SIZE / 4, Player.getInstance().getStamina() * 10, Config.FIELD_SIZE / 4);
+        bufferGraphics.fillRect(0 + hudOffset.getX(), Config.FIELD_SIZE / 4 + hudOffset.getY(),
+                Player.getInstance().getStamina() * 10, Config.FIELD_SIZE / 4);
     }
 
     private static Font inline = new Font("Monospaced", Font.BOLD , 15);
@@ -155,13 +169,13 @@ public class GameCanvas extends Canvas {
             FontMetrics fm = bufferGraphics.getFontMetrics();
             int w = fm.stringWidth(dmg);
             int h = fm.getAscent();
-            bufferGraphics.drawString(dmg, from.getX() + dir.getX() * Config.FIELD_SIZE + up.getX() - (w / 2), from.getY() + dir.getY() * Config.FIELD_SIZE + up.getY() + (h / 4));
+            bufferGraphics.drawString(dmg, from.getX() + dir.getX() * Config.FIELD_SIZE + up.getX() - (w / 2) + imgOffset.getX(),
+                    from.getY() + dir.getY() * Config.FIELD_SIZE + up.getY() + (h / 4) + imgOffset.getY());
             GamePanel.getInstance().getCanvas().getGraphics().drawImage(offscreen, 0, 0, this);
         }
     }
 
     private void drawHP(VPoint pos, int hp, int maxHp) {
-
         int max = Config.FIELD_SIZE;
         float length = (float)max * ((float)hp / (float)maxHp);
 
@@ -170,10 +184,12 @@ public class GameCanvas extends Canvas {
 
         //bufferGraphics.setColor(new Color(164, 0, 0));
         bufferGraphics.setColor(new Color(255, 0, 0));
-        bufferGraphics.fillRect(start.getX(), start.getY(), max, Config.FIELD_SIZE / 8);
+        bufferGraphics.fillRect(start.getX() + imgOffset.getX(), start.getY() + imgOffset.getY(),
+                max, Config.FIELD_SIZE / 8);
         //bufferGraphics.setColor(new Color(255, 0, 0));
         bufferGraphics.setColor(new Color(55, 244, 48));
-        bufferGraphics.fillRect(start.getX(), start.getY(), Math.round(length), Config.FIELD_SIZE / 8);
+        bufferGraphics.fillRect(start.getX() + imgOffset.getX(), start.getY() + imgOffset.getY(),
+                Math.round(length), Config.FIELD_SIZE / 8);
     }
 
     public boolean windowUpdate(VPoint size) {
