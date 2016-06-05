@@ -10,7 +10,7 @@ public class Reference {
     public static final String PROJ_VER = "vDEBUG";
 
     public static final String START_DATE = "Day01 2016.04.07";
-    public static final String TIME_STAMP = "Day11 2016.05.20";
+    public static final String TIME_STAMP = "Day12 2016.06.03";
 
     //----------GAME-DEFAULTS----------
     // Controls
